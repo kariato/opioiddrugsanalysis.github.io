@@ -13,7 +13,7 @@
 
 .main-panel {
     transition: width $action-transition-duration $action-transition-timing-function, margin $action-transition-duration $action-transition-timing-function;
-    width: calc(100% - #{$sidebar-width-lg});
+    width: 100% ;
     min-height: calc(100vh - #{$navbar-height});
     display: flex;
     flex-direction: column;

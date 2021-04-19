@@ -209,5 +209,3 @@ Promise.all([promise1, promise2]).then(values => {
 
 });
 
-
-Resources1× 0.5× 0.25×Rerun

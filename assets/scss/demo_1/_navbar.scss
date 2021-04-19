@@ -15,7 +15,7 @@
       -moz-transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
       -ms-transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
       background: $sidebar-gradient-color-2;
-      width: $sidebar-width-lg;
+      width: 0;
       height: $navbar-height;
 
       .navbar-brand {
@@ -59,7 +59,7 @@
       color: $navbar-menu-wrapper-color;
       padding-left: 15px;
       padding-right: 15px;
-      width: calc(100% - #{$sidebar-width-lg});
+      width: calc(100% );
       height: $navbar-height;
       box-shadow: $navbar-menu-wrapper-box-shadow;
 

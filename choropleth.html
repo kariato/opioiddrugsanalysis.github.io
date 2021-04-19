@@ -1,0 +1,376 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+
+	<!-- add title -->
+	<title>My map</title>
+	<!-- import required libraries here -->
+	<script type="text/javascript" src="assets/js/shared/d3.v5.min.js"></script>
+	<script type="text/javascript" src="assets/js/shared/topojson.v2.min.js"></script>
+	<script type="text/javascript" src="assets/js/shared/d3-geo-projection.v2.min.js"></script>
+	<script type="text/javascript" src="assets/js/shared/d3-legend.min.js"></script>
+	<script type="text/javascript" src="assets/js/shared/d3-tip.min.js"></script>
+	<script type="text/javascript" src="assets/js/shared/topojson.v2.min.js"></script>
+	<style>
+
+		/* define CSS rules here */
+
+		.continent {
+			stroke: red;
+			stroke-width: 0.5;
+		}
+
+		.circles {
+			fill: #3c373d;
+		}
+
+		.labels {
+			font-family: sans-serif;
+			font-size: 11px;
+			fill: #3c373d;
+		}
+
+		#tooltip-container {
+			position: absolute;
+			background-color: #fff;
+			color: #000;
+			padding: 10px;
+			border: 1px solid;
+			display: none;
+		}
+
+		.tooltip_key {
+			font-weight: bold;
+		}
+
+		.tooltip_value {
+			margin-left: 20px;
+			float: right;
+		}
+
+		.option-select {
+			margin-top: 0px;
+			margin-left: 10px;
+			fill: #64b646;
+			width: auto;
+		}
+
+		.d3-tip {
+			line-height: 1;
+			padding: 6px;
+			background: rgba(0, 0, 0, 0.8);
+			color: #fff;
+			border-radius: 4px;
+			font-size: 12px;
+		}
+
+			/* Creates a small triangle extender for the tooltip */
+			.d3-tip:after {
+				box-sizing: border-box;
+				display: inline;
+				font-size: 10px;
+				width: 100%;
+				line-height: 1;
+				color: rgba(0, 0, 0, 0.8);
+				content: "\25BC";
+				position: absolute;
+				text-align: center;
+			}
+
+			/* Style northward tooltips specifically */
+			.d3-tip.n:after {
+				margin: -2px 0 0 0;
+				top: 100%;
+				left: 0;
+			}
+	</style>
+</head>
+
+
+
+<body>
+	<!-- Add heading for the visualization -->
+	<h1>Average Rating of Board Games Across the World</h1>
+	<!-- Create dropdown element here. Options should be added after reading in game file, they should not be created here.-->
+	<label for="games">Field:</label><div id="selectors"></div>
+	<label for="games">Year:</label><div id="selectorsYears"></div>
+	<div id="tooltip-container"></div>
+	<!-- append visualization svg to this div-->
+	<div id="choropleth" class="svg-container"></div>
+	<h4 style="text-align: center;">MDAVEY8</h4>
+
+	<script>
+		//https://bl.ocks.org/dnprock/b48388ee8bc5582947b6 <-- I used this as my template so some code is directly cloned/modified from this example
+		// enter code to define margin and dimensions for svg
+		var width = 1400;
+		var height = 700;
+		var svg = d3.select("div#choropleth").append("svg").attr("preserveAspectRatio", "xMinYMin meet").style("background-color", "#c9e8fd")
+			.attr("viewBox", "0 0 " + width + " " + height)
+			.classed("svg-content", true);
+
+		//var projection = d3.geoNaturalEarth().translate([width / 2, height / 2]).scale(280).center([10, 10]);
+		var geopath = d3.geoPath();//.projection(projection);
+		// enter code to create svg
+
+		// enter code to create color scale
+
+		// enter code to define tooltip
+
+		// enter code to define projection and path required for Choropleth
+
+		// define any other global variables
+		// load data
+		var config = { "defaultValue": "GRAMS_OXYCODONE_PER_PERSON" };
+		var drugs = {};
+		var drugTotals = {};
+		var drugTotalsFIPS = {};
+		var drugTotalsYear = {};
+		var coeff1 = {};
+		var coeff2 = {};
+		var counties = [];
+		var property1 = "GRAMS_OXYCODONE_PER_PERSON";
+		var property2 = "All";
+		var countiesPromise = d3.json("data\\counties-albers-10m.json")
+			.then(function (data) {
+				counties = data;
+			});
+		const rollupData = d3.csv("data\\master_rollupv2.csv")
+			.then(function (data) {
+				for (var i = 0; i < data.length; i++) {
+					padded_key = data[i].FIPS_CODE.padStart(5, 0);
+					if (!(padded_key in drugs)) {
+						drugs[padded_key] = {}
+					}
+					year = data[i].year;
+					Object.keys(data[i]).forEach(function (key) {
+						if (!(key in drugs[padded_key])) {
+							drugs[padded_key][key] = {};
+						};
+						drugs[padded_key][key][year] = data[i][key]
+					});
+				}
+			});
+		const rollupTotalsData = d3.csv("data\\totals.csv")
+			.then(function (data) {
+				for (var i = 0; i < data.length; i++) {
+					padded_key = data[i].FIPS_CODE.padStart(5, 0);
+					if (!(padded_key in drugTotals)) {
+						drugTotals[padded_key] = {}
+					}
+					Object.keys(data[i]).forEach(function (key) {
+						drugTotals[padded_key][key] = data[i][key]
+					});
+				}
+			});
+		const rollupTotalsFIPSData = d3.csv("data\\totalsfips.csv")
+			.then(function (data) {
+				for (var i = 0; i < data.length; i++) {
+					padded_key = data[i].FIPS_CODE.padStart(5, 0);
+					if (!(padded_key in drugTotalsFIPS)) {
+						drugTotalsFIPS[padded_key] = {}
+					}
+					Object.keys(data[i]).forEach(function (key) {
+						drugTotalsFIPS[padded_key][key] = data[i][key]
+					});
+				}
+			});
+		const rollupTotalsYearsData = d3.csv("data\\totalsyear.csv")
+			.then(function (data) {
+				for (var i = 0; i < data.length; i++) {
+					padded_key = data[i].year;
+					if (!(padded_key in drugTotalsYear)) {
+						drugTotalsYear[padded_key] = {}
+					}
+					Object.keys(data[i]).forEach(function (key) {
+						drugTotalsYear[padded_key][key] = data[i][key]
+					});
+				}
+			});
+		const Coeeficients1Data = d3.csv("data\\Coeeficients1.csv")
+			.then(function (data) {
+				for (var i = 0; i < data.length; i++) {
+					padded_key = data[i].fips.padStart(5, 0);
+					if (!(padded_key in coeff1)) {
+						coeff1[padded_key] = {}
+					}
+					Object.keys(data[i]).forEach(function (key) {
+						coeff1[padded_key][key] = data[i][key]
+					});
+				}
+			});
+		const Coeeficients2Data = d3.csv("data\\Coeeficients2.csv")
+			.then(function (data) {
+				for (var i = 0; i < data.length; i++) {
+					padded_key = data[i].fips.padStart(5, 0);
+					if (!(padded_key in coeff2)) {
+						coeff2[padded_key] = {}
+					}
+					Object.keys(data[i]).forEach(function (key) {
+						coeff2[padded_key][key] = data[i][key]
+					});
+				}
+			});
+		var map = [];
+
+		Promise.all([countiesPromise, rollupTotalsFIPSData
+			// enter code to read files
+		]).then(function (values) {
+			// draw map
+
+			const color = d3.scaleThreshold()
+
+
+
+
+			var fields = Object.keys(drugTotalsFIPS["01001"]);
+			var option_select = d3.select('#selectors').append("select")
+				.attr("class", "option-select");
+			for (var i = 1; i < fields.length; i++) {
+				var opt = option_select.append("option")
+					.attr("value", fields[i])
+					.text(fields[i]);
+
+				if (fields[i] === config.defaultValue) {
+					opt.attr("selected", "true");
+				}
+			}
+			option_select.on("change", function (d) {
+                console.log(this.value);
+                property1 = this.value;
+                createMapAndLegend(this.value);
+			});
+
+			var field2s = ["All", "2006", "2007", "2008", "2009", "2010", "2011", "2012"];
+            var option_select2 = d3.select('#selectorsYears').append("select")
+                .attr("class", "option-select");
+            for (var i = 0; i < field2s.length; i++) {
+                var opt = option_select2.append("option")
+                    .attr("value", field2s[i])
+                    .text(field2s[i]);
+
+                if (field2s[i] == "All") {
+                    opt.attr("selected", "true");
+                }
+            }
+            option_select2.on("change", function (d) {
+				console.log(this.value);
+				property2 = this.value;
+                createMapAndLegend(this.value);
+			});
+			createMapAndLegend(0);
+			//createMapAndLegend(values[0], gameSales, gameRatings, config.defaultValue);
+			//map = values[0];
+		})
+			.catch(function (error) { console.error(error); /* this line can also throw, e.g. when console = {} */ })
+			;
+
+
+		// enter code to call ready() with required arguments
+
+
+		//     .attr("data-legend",function(d) { return d.name})
+		//     legend = svg.append("g")
+		// .attr("class","legend")
+		// .attr("transform","translate(50,30)")
+		// .style("font-size","12px")
+		// .call(d3.legend);
+		// this function should be called once the data from files have been read
+		// world: topojson from world_countries.json
+		// gameData: data from ratings-by-country.csv
+
+		function ready(error, world, gameData) {
+			// enter code to extract all unique games from gameData
+			// enter code to append the game options to the dropdown
+			// event listener for the dropdown. Update choropleth and legend when selection changes. Call createMapAndLegend() with required arguments.
+			// create Choropleth with default option. Call createMapAndLegend() with required arguments.
+		}
+
+		function drawMap(selectedField) {
+			createMapAndLegend(selectedField);
+		}
+
+		// this function should create a Choropleth and legend using the world and gameData arguments for a selectedGame
+		// also use this function to update Choropleth and legend when a different game is selected from the dropdown
+        function createMapAndLegend(selectedField) {
+			SelectedValues = [0];
+			var fields = Object.keys(drugTotalsFIPS);
+			for (var i = 1; i < fields.length; i++) {
+				if (drugTotalsFIPS[fields[i]][property1] != 0.0) {
+				SelectedValues.push(drugTotalsFIPS[fields[i]][property1]);
+			}
+
+			};
+			var colorScale = d3.scaleQuantile()
+				.domain(SelectedValues)
+                .range(['#ffffcc', '#ffeda0', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026', '#800026']);
+			svg.selectAll("path").remove();
+			var tool_tip = d3.tip()
+				.attr("class", "d3-tip")
+				.offset([-8, 0])
+				.html(function (d) {
+					//if (d.properties.name in gameSales[gameName]) {
+					//	var xy = gameSales[gameName][d.properties.name];
+					//    return "<ul><li>Country: " + xy.Country + "</li><li>Game: " + xy.Game + "</li><li>Avg Rating:  " + xy["Average Rating"] + "</li><li>Number of Users: " + xy["Number of Users"] + "</li></ul>";
+					//}
+					return "<ul><li>Country: " + d.id + "</li><li>Game: </li><li>Avg Rating:  N/A</li><li>Number of Users: N/A</li></ul>";
+				});
+			svg.call(tool_tip);
+			var x = height - 440;
+
+			svg.selectAll("path")
+                .data(topojson.feature(counties, counties.objects.counties).features)
+				.enter()
+				.append("path")
+				.attr("d", geopath)
+				.attr('fill', function (d) {
+                    if (d.id in drugTotalsFIPS) {
+						//console.log(d.properties.name, gameSales[selectedGame][d.properties.name]["Average Rating"]);
+						t1 = drugTotalsFIPS[d.id];
+						t2 = t1[property1];
+						return colorScale(drugTotalsFIPS[d.id][property1]);
+					}
+					else {
+						return "grey";
+					}
+				})
+				.style('stroke', 'white')
+				.style('opacity', 0.8)
+				.style('stroke-width', 0.3)
+				.on('mouseover', tool_tip.show)
+				.on('mouseout', tool_tip.hide);
+
+            svg.selectAll("path")
+                .data(topojson.feature(counties, counties.objects.states).features)
+                .enter()
+                .append("path")
+                .attr("d", geopath)
+                .style('stroke', 'blue')
+                .style('opacity',1)
+				.style('stroke-width', 1);
+
+			svg.append("g")
+				.attr("class", "legendQuant")
+				.attr("transform", "translate(+970," + x + ")");
+
+			var legend = d3.legendColor()
+				.labelFormat(d3.format(".2f"))
+				.useClass(false)
+                .title(property1)
+				.titleWidth(100)
+				.scale(colorScale);
+
+			svg.select(".legendQuant")
+				.call(legend);
+
+		}
+
+
+
+				//option_select.on("change", function () {
+				//	drawMap($("#selectors").find(".option-select").val());
+				//});
+	</script>
+
+</body>
+</html>
+

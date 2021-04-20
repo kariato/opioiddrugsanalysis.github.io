@@ -29,6 +29,7 @@
         }
 
 
+
     </style>
 </head>
 <body>
@@ -76,10 +77,14 @@
                                                 <h6 class="dropdown-header">Settings</h6>
                                             </div>
                                         </div>
+                                        <button id="StateName" type="button" class="btn btn-primary btn-fw">United States</button>
+                                        <button id="CountyName" type="button" class="btn btn-primary btn-fw">County: All</button>
+                                        <button id="YearValue"type="button" class="btn btn-primary btn-fw">Year: All</button>
+                                        <button id="FeatureName"type="button" class="btn btn-primary btn-fw">Feature: GRAMS OXYCODONE PER PERSON</button>
                                         <!--<div id="dashboard-vmap" class="vector-map"></div>-->
-                                        <div id="root" >
+                                        <div id="root">
                                             <div class="row align-items-end">
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -89,25 +94,13 @@
                         <div class="col-md-4 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body d-flex flex-column">
-                                    <div class="wrapper">
-                                        <h4 class="card-title font-weight-bold text-primary mb-0">Location</h4>
-                                        <div class="mb-4 font-weight-bold text-primary" id="net-profit-legend">State: Virginia</div>
-                                        <div class="mb-4 font-weight-bold text-primary" id="net-profit-legend">County: Fairfax County</div>
-                                        <div class="mb-4 font-weight-bold text-primary" id="net-profit-legend">Population: 1,146,000</div>
+                                    <div class="mb-4" id="net-profit-legend">
+                                        <b>Correlate #1:</b> 
+                                        <canvas id="correlated1"></canvas>
                                     </div>
-                                    The facts<br />
-                                    Pills transacted per 100,000 people:
-                                    {num_here} <br />
-                                    Grams of opioids bought per person:
-                                    {num_here}<br />
-                                    Etc.<br />
-                                    The factors<br />
-                                    <div class="mb-4" id="net-profit-legend"><b>Correlate #1:</b> {value for year}</div>
-                                    <canvas class="mt-n4" height="90" id="total-revenue"></canvas>
-                                    <div class="mb-4" id="net-profit-legend"><b>Correlate #2:</b> {value for year}</div>
-                                    <canvas class="mt-n3" height="90" id="total-transaction"></canvas>
-                                    <div class="mb-4" id="net-profit-legend"><b>Correlate #3:</b> {value for year}</div>
-                                    <canvas class="mt-n4" height="90" id="total-revenue3"></canvas>
+                                    <!--<canvas class="mt-n4" height="90" id="total-revenue"></canvas>-->
+                                    <div class="mb-4" id="net-profit-legend"><b>Correlate #2:</b> <canvas id="correlated2"></canvas></div>
+                                    <div class="mb-4" id="net-profit-legend"><b>Correlate #3:</b> <canvas id="correlated3"></canvas></div>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +117,9 @@
                                             </div>
                                             <h3 id="unemploymentttl" class="font-weight-medium"></h3>
                                         </div>
-                                        <canvas class="mt-n4" height="90" id="unemply-chart"></canvas>
+                                        <div id="unemply-chart-parent">
+                                            <canvas class="mt-n4" height="90" id="unemply-chart"></canvas>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 grid-margin stretch-card">
@@ -261,8 +256,11 @@
     <script src="https://unpkg.com/d3-simple-slider"></script>
     <script src="assets/js/shared/off-canvas.js"></script>
     <script src="assets/js/shared/misc.js"></script>
-    <script src="assets/js/D3/County.js"</script>
-    <script src="assets/js/D3/dashboard.js"></script>
+    <script src="assets/js/D3/genci.js"></script>
+    <script src="assets/js/D3/County.js"></script>
+
+    <script src="assets/js/demo_1/dashboard.js"></script>
+
     <!-- End custom js for this page-->
     <script type="text/javascript">
         var drugs = {};
@@ -341,7 +339,7 @@
                     });
                 }
             });
-        const Coeeficients2Data = d3.csv("data\\Coeeficients2.csv")
+        const Coeeficients2Data = d3.csv("data\\coefficients_all_V3.csv")
             .then(function (data) {
                 for (var i = 0; i < data.length; i++) {
                     padded_key = data[i].fips.padStart(5, 0);
@@ -358,7 +356,8 @@
                 for (var i = 0; i < data.length; i++) {
                     padded_key = data[i].FIPS.padStart(2, 0);
                     states[padded_key] = {
-                        'State': data[i].State, 'State_abbr': data[i].State_abbr, 'FIPS':padded_key};
+                        'State': data[i].State, 'State_abbr': data[i].State_abbr, 'FIPS': padded_key
+                    };
 
                 }
             });
@@ -366,10 +365,13 @@
         (function ($) {
             'use strict';
             $(function () {
+
                 Promise.all([counties, rollupData, rollupTotalsData, rollupTotalsFIPSData,
-                    rollupTotalsYearsData, Coeeficients1Data, Coeeficients2Data, FIPSstate]).then(values => {
+                    rollupTotalsYearsData, Coeeficients1Data, Coeeficients2Data]).then(values => {
+                        addCorrelationCharts("10001", coeff2, drugs);
                         if ($("#unemploymentDelta").length) {
                             totalUpdate("00000", "unemployment_rate", '#unemploymentDelta', 'unemply-chart', 'Unemployment', "Percentage");
+
                         }
                         if ($("#ttldeaths").length) {
                             totalUpdate("00000", "DEATHS_CENSUS", '#ttldeaths', 'ttldeathschart', 'Total Deaths');
@@ -379,6 +381,7 @@
                         }
                         setupResizeMap();
                     });
+
             });
 
         })(jQuery);

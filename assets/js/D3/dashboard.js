@@ -1,7 +1,7 @@
 
-const root = document.getElementById("#dashboard-vmap");
-const tooltip = document.createElement("div");
-tooltip.setAttribute("id", "tooltip");
+//const root = document.getElementById("#dashboard-vmap");
+//const tooltip = document.createElement("div");
+//tooltip.setAttribute("id", "tooltip");
 tooltip.setAttribute("data-year", 0);
 root.appendChild(tooltip);
 

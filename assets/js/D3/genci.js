@@ -24,6 +24,15 @@ function isNumeric(str) {
 }
 
 
+function cleanCanvas() {
+    document.getElementById("correlated1").width += 0;
+    document.getElementById("correlated2").width += 0;
+    document.getElementById("correlated3").width += 0;
+    document.getElementById("correlated1").html = "";
+    document.getElementById("correlated2").html = "";
+    document.getElementById("correlated3").html = "";
+
+}
 
 function d3AddhorizontalBar() {
     var data = [{
@@ -179,8 +188,8 @@ function getTop3Contributers(countyDataDict) {
 
 function addCorrelationCharts(fips, allCountiesDataDict, historicalDrugsData) {
 
-
-
+    //alert("I'm getting fired");
+    cleanCanvas();
 
     top3Contributers = getTop3Contributers(allCountiesDataDict[fips]);
 
@@ -225,9 +234,9 @@ function addCorrelationCharts(fips, allCountiesDataDict, historicalDrugsData) {
     chartLabel3 = "Data for:"
     listOfLabels3 = [];
     listOfValues3 = [];
-    for (var key in firstContributerData) {
+    for (var key in thirdContributerData) {
         listOfLabels3.push(key);
-        listOfValues3.push(secondContributerData[key]);
+        listOfValues3.push(Math.round(thirdContributerData[key], 2));
     }
 
     opioidsOxy = historicalDrugsData[fips]["GRAMS_OXYCODONE"];
@@ -241,13 +250,13 @@ function addCorrelationCharts(fips, allCountiesDataDict, historicalDrugsData) {
 
     for (var key in opioidsOxy) {
         listOfOxyLabels.push(key);
-        listOfOxyValues.push(parseFloat(opioidsOxy[key]));
+        listOfOxyValues.push(Math.round(parseFloat(opioidsOxy[key]),2));
     }
 
 
     for (var key in opioidsHydro) {
         listOfHydroLabels.push(key);
-        listOfHydroValues.push(parseFloat(opioidsHydro[key]));
+        listOfHydroValues.push(Math.round(parseFloat(opioidsHydro[key]),2));
     }
 
     //, listOfOxyLabels, listOfOxyValues, listOfHydroLabels, listOfHydroValues
@@ -255,6 +264,9 @@ function addCorrelationCharts(fips, allCountiesDataDict, historicalDrugsData) {
     addChart(canvasID2, "line", chartTitle2, "Data per year", listOfLabels2, listOfValues2, listOfOxyLabels, listOfOxyValues, listOfHydroLabels, listOfHydroValues);
     addChart(canvasID3, "line", chartTitle3, "Data per year", listOfLabels3, listOfValues3, listOfOxyLabels, listOfOxyValues, listOfHydroLabels, listOfHydroValues);
 
+    //document.getElementById("correlated1").width += 0;
+    //document.getElementById("correlated2").width += 0;
+    //document.getElementById("correlated3").width += 0;
 
 }
 
@@ -265,63 +277,72 @@ function addChart(canvasID, chartType, chartTitle, chartLabel, listOfLabels, lis
 
     //var COLORS = interpolateColors(dataLength, colorScale, colorRangeInfo);
     var COLORS = "red";
+    oxyValues.map(value => isNaN(value) ? 0 : value);
+    hydroValues.map(value => isNaN(value) ? 0 : value);
+    listOfData.map(value => isNaN(value) ? 0 : value);
+
+
     oxyMax = Math.max(...oxyValues);
     hydroMax = Math.max(...hydroValues);
     opioidMax = Math.max(oxyMax, hydroMax);
-    correlatedMax = Math.max(...listOfData);
+    let correlatedMax = Math.max(...listOfData);
 
     new Chart(document.getElementById(canvasID), {
         type: chartType,
         data: {
             labels: listOfLabels,
             datasets: [
+                
+                
                 {
-                    yAxesID: 'A',
-                    label: chartLabel,
-                    //backgroundColor: "white",
-                    borderColor: "#3e95cd",
-                    data: listOfData,
-                    fill: false
-                }
-                ,
-                {
-                    yAxesID: 'B',
-                    label: oxyLabels,
+                    yAxisID: 'B',
+                    label: 'Oxycodone',
                     //backgroundColor: "white",
                     borderColor: "#de2d26",
                     data: oxyValues,
                     fill: false
                 },
                 {
-                    yAxesID: 'B',
-                    label: hydroLabels,
+                    yAxisID: 'B',
+                    label: 'Hydrocodone',
                     //backgroundColor: "white",
                     borderColor: "#fc9272",
                     data: hydroValues,
+                    fill: false
+                },
+                {
+                    yAxisID: 'A',
+                    label: 'Correlated factor',
+                    //backgroundColor: "white",
+                    borderColor: "#3e95cd",
+                    data: listOfData,
                     fill: false
                 }
 
             ]
         },
         options: {
-            legend: { display: false },
+            legend: { display: true },
             title: {
                 display: true,
                 text: chartTitle
             },
             scales: {
                 yAxes: [{
-                    id: 'A',
-                    type: 'linear',
-                    position: 'left'
-                }, {
                     id: 'B',
                     type: 'linear',
-                    position: 'right',
                     ticks: {
-                        max: Math.round(opioidMax / 1000) * 1000,
+                        max: Math.round(opioidMax / 1000) * 1000 + 100,
                         min: 0
                     }
+                }, {
+                    id: 'A',
+                    type: 'linear',
+                    position: 'right',
+                        ticks: {
+                            max: correlatedMax ,// Math.round(opioidMax / 1000) * 1000,
+                            min: 0
+                        }
 
                 }]
             }

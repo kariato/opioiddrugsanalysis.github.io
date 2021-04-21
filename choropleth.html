@@ -292,13 +292,10 @@
 		// this function should create a Choropleth and legend using the world and gameData arguments for a selectedGame
 		// also use this function to update Choropleth and legend when a different game is selected from the dropdown
         function createMapAndLegend(selectedField) {
-			SelectedValues = [0];
+			SelectedValues = [];
 			var fields = Object.keys(drugTotalsFIPS);
 			for (var i = 1; i < fields.length; i++) {
-				if (drugTotalsFIPS[fields[i]][property1] != 0.0) {
 				SelectedValues.push(drugTotalsFIPS[fields[i]][property1]);
-			}
-
 			};
 			var colorScale = d3.scaleQuantile()
 				.domain(SelectedValues)

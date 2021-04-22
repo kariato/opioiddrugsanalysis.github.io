@@ -367,14 +367,14 @@ function setyear(feat) {
                 .on('mouseout', tool_tip.hide)
                 .on('click', function (d) {
                     
-                    fipsUpdate(d.id, "unemployment_rate", '#unemploymentDelta', 'unemply-chart', 'Unemployment', "Percentage");
-                    fipsUpdate(d.id, "DEATHS_CENSUS", '#ttldeaths', 'ttldeathschart', 'Total Deaths');
-                    fipsUpdate(d.id, "All_Overdose_deaths", '#ttloddeaths', 'ttloddeathschart', 'Overdose Deaths');
+                    //fipsUpdate(d.id, "unemployment_rate", '#unemploymentDelta', 'unemply-chart', 'Unemployment', "Percentage");
+                    //fipsUpdate(d.id, "DEATHS_CENSUS", '#ttldeaths', 'ttldeathschart', 'Total Deaths');
+                    //fipsUpdate(d.id, "All_Overdose_deaths", '#ttloddeaths', 'ttloddeathschart', 'Overdose Deaths');
                     addCorrelationCharts(d.id, coeff2, drugs); addCorrelationChartsPart2("10001", coeff2, drugs);
-                    addCorrelationChartsPart2(d.id, coeff2, drugs);
-                    addCorrelationChartsPart3(d.id, coeff2, drugs);
-                    add_predict(d.id, predictions, drugs);
-                    add_predict2(d.id, predictions, drugs);
+                    //addCorrelationChartsPart2(d.id, coeff2, drugs);
+                    //addCorrelationChartsPart3(d.id, coeff2, drugs);
+                    //add_predict(d.id, predictions, drugs);
+                    //add_predict2(d.id, predictions, drugs);
                     state = states[d.id.substr(0, 2)]['State'];
                     cnty = d.properties.name;
                     $("#StateName").html("State: "+state);

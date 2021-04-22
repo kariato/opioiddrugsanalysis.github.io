@@ -4,6 +4,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+
     <title>Visualization of the Opioid Crisis in the USA</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
@@ -27,9 +29,6 @@
         body {
             align-items: center;
         }
-
-
-
     </style>
 </head>
 <body>
@@ -54,14 +53,14 @@
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_sidebar.html -->
             <!-- partial -->
-            <div class="main-panelx">
+            <div class="container-fluid">
                 <div class="content-wrapper">
                     <div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
-                            <div  class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 id="StateName" class="m-0 font-weight-bold text-primary">United States</h6>
                             </div>
-                            <div  class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 id="CountyName" class="m-0 font-weight-bold text-primary">County: All</h6>
                             </div>
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -107,15 +106,15 @@
                                         <div class="template-demo">
 
                                             <a href="CSE6242_Project_Final_Report_v3.pdf" type="button"
-                                                    class="btn btn-primary btn-fw">
+                                               class="btn btn-primary btn-fw">
                                                 Project Report
                                             </a>
                                             <a href="Poster.pdf" type="button"
-                                                    class="btn btn-primary btn-fw">
+                                               class="btn btn-primary btn-fw">
                                                 Poster
                                             </a>
                                             <a href="Static.pdf" type="button"
-                                                    class="btn btn-primary btn-fw">
+                                               class="btn btn-primary btn-fw">
                                                 Static Data
                                             </a>
 
@@ -126,7 +125,7 @@
                                 </div>
                                 <h4 class="m-0 font-weight-bold text-primary"> </h4>
                             </div>
- 
+
                         </div>
                         <div class="col-md-5 grid-margin stretch-card">
                             <div class="card">
@@ -142,193 +141,192 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 grid-margin stretch-card">
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h4 class="m-0 font-weight-bold text-primary">Digging Deeper</h4>
-                            </div>
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">
-                                    Predictive model projections and important factors
-                                </h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8 grid-margin stretch-card">
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">“Hydrocodone and Oxycodone -- Current and Projected Usage</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="mb-8" id="net-profit-legend"><b>Historical chart of correlated factor #2:</b> <canvas id="projected21"></canvas></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 grid-margin stretch-card">
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Corelating Facts</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="mb-4" id="net-profit-legend"><b>Correlate #1:</b> <canvas id="correlated21"></canvas></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="mb-4" id="net-profit-legend"><b>Correlate #2:</b> <canvas id="correlated22"></canvas></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="mb-4" id="net-profit-legend"><b>Correlate #3:</b> <canvas id="correlated23"></canvas></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8 grid-margin stretch-card">
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Opioid Deaths -- Current and Projected Usage</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="mb-8" id="net-profit-legend"><b>Correlate #1:</b> <canvas id="projected22"></canvas></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 grid-margin stretch-card">
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Corelating Facts</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="mb-4" id="net-profit-legend"><b>Correlate #1:</b> <canvas id="correlated31"></canvas></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="mb-4" id="net-profit-legend"><b>Correlate #2:</b> <canvas id="correlated32"></canvas></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="mb-4" id="net-profit-legend"><b>Correlate #3:</b> <canvas id="correlated33"></canvas></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8 grid-margin stretch-card">
-                            <div class="template-demo">
-
-                                <button id="UnemploymentGraphs" href="javascript:setgraphs('unemp')" type="button"
-                                        class="btn btn-primary btn-fw">
-                                    Unemployment
-                                </button>
-                                <button id="UnemploymentGraphs" href="javascript:setgraphs('income')" type="button"
-                                        class="btn btn-primary btn-fw">
-                                    Income
-                                </button>
-                                <button id="UnemploymentGraphs" href="javascript:setgraphs('housing')" type="button"
-                                        class="btn btn-primary btn-fw">
-                                    Housing
-                                </button>
-
-                                <button id="UnemploymentGraphs" href="javascript:setgraphs('death')" type="button"
-                                        class="btn btn-primary btn-fw">
-                                    Deaths
-                                </button>
-
-                                <button id="UnemploymentGraphs" href="javascript:setgraphs('demo')" type="button"
-                                        class="btn btn-primary btn-fw">
-                                    Demographics
-                                </button>
-
-                                <button id="UnemploymentGraphs" href="javascript:setgraphs('education')" type="button"
-                                        class="btn btn-primary btn-fw">
-                                    Education
-                                </button>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-4 grid-margin stretch-card">
-                                    <div class="card">
-                                        <div class="card-body pb-0">
-                                            <div class="d-flex justify-content-between">
-                                                <h4 class="card-title mb-0">Unemployment</h4>
-                                                <p id="unemploymentDelta" class="font-weight-semibold mb-0"></p>
-                                            </div>
-                                            <h3 id="unemploymentttl" class="font-weight-medium"></h3>
-                                        </div>
-                                        <div id="unemply-chart-parent">
-                                            <canvas class="mt-n3" height="90" id="unemply-chart"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 grid-margin stretch-card">
-                                    <div class="card">
-                                        <div class="card-body pb-0">
-                                            <div class="d-flex justify-content-between">
-                                                <h4 class="card-title mb-0">Average Deaths</h4>
-                                            </div>
-                                            <h3 id="ttldeaths" class="font-weight-medium"></h3>
-                                        </div>
-                                        <canvas class="mt-n3" height="90" id="ttldeathschart"></canvas>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 grid-margin stretch-card">
-                                    <div class="card">
-                                        <div class="card-body pb-0">
-                                            <div class="d-flex justify-content-between">
-                                                <h4 class="card-title mb-0">Overdose Deaths</h4>
-                                            </div>
-                                            <h3 id="ttloddeaths" class="font-weight-medium"></h3>
-                                        </div>
-                                        <canvas class="mt-n3" height="90" id="ttloddeathschart"></canvas>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 grid-margin stretch-card">
-                                    <div class="card">
-                                        <div class="card-body pb-0">
-                                            <div class="d-flex justify-content-between">
-                                                <h4 class="card-title mb-0">Overdose Deaths</h4>
-                                            </div>
-                                            <h3 id="ttloddeaths" class="font-weight-medium"></h3>
-                                        </div>
-                                        <canvas class="mt-n3" height="90" id="ttloddeathschart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- content-wrapper ends -->
-                    <!-- partial:partials/_footer.html -->
-                    <footer class="footer">
-                        <div class="container-fluid clearfix">
-                            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">CSE6242 Project</span>
-                            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Team #114</span>
-                        </div>
-                    </footer>
-                    <!-- partial -->
+                    <!--<div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h4 class="m-0 font-weight-bold text-primary">Digging Deeper</h4>
                 </div>
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Predictive model projections and important factors
+                    </h6>
+                </div>
+            </div>
+        </div>-->
+                    <!--<div class="row">
+            <div class="col-md-8 grid-margin stretch-card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">“Hydrocodone and Oxycodone -- Current and Projected Usage</h6>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 grid-margin stretch-card">
+                <div class="card">
+                    <div class="mb-8" id="net-profit-legend"><b>Historical chart of correlated factor #2:</b> <canvas id="projected21"></canvas></div>
+                </div>
+            </div>
+        </div>-->
+                    <!--<div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Corelating Facts</h6>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="mb-4" id="net-profit-legend"><b>Correlate #1:</b> <canvas id="correlated21"></canvas></div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="mb-4" id="net-profit-legend"><b>Correlate #2:</b> <canvas id="correlated22"></canvas></div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="mb-4" id="net-profit-legend"><b>Correlate #3:</b> <canvas id="correlated23"></canvas></div>
+                </div>
+            </div>-->
+                </div>
+                <!--<div class="row">
+        <div class="col-md-8 grid-margin stretch-card">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Opioid Deaths -- Current and Projected Usage</h6>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 grid-margin stretch-card">
+            <div class="card">
+                <div class="mb-8" id="net-profit-legend"><b>Correlate #1:</b> <canvas id="projected22"></canvas></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Corelating Facts</h6>
+            </div>
+        </div>
+    </div>-->
+                <!--<div class="row">
+        <div class="col-md-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="mb-4" id="net-profit-legend"><b>Correlate #1:</b> <canvas id="correlated31"></canvas></div>
+            </div>
+        </div>
+        <div class="col-md-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="mb-4" id="net-profit-legend"><b>Correlate #2:</b> <canvas id="correlated32"></canvas></div>
+            </div>
+        </div>
+        <div class="col-md-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="mb-4" id="net-profit-legend"><b>Correlate #3:</b> <canvas id="correlated33"></canvas></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 grid-margin stretch-card">
+            <div class="template-demo">
+
+                <button id="UnemploymentGraphs" href="javascript:setgraphs('unemp')" type="button"
+                        class="btn btn-primary btn-fw">
+                    Unemployment
+                </button>
+                <button id="UnemploymentGraphs" href="javascript:setgraphs('income')" type="button"
+                        class="btn btn-primary btn-fw">
+                    Income
+                </button>
+                <button id="UnemploymentGraphs" href="javascript:setgraphs('housing')" type="button"
+                        class="btn btn-primary btn-fw">
+                    Housing
+                </button>
+
+                <button id="UnemploymentGraphs" href="javascript:setgraphs('death')" type="button"
+                        class="btn btn-primary btn-fw">
+                    Deaths
+                </button>
+
+                <button id="UnemploymentGraphs" href="javascript:setgraphs('demo')" type="button"
+                        class="btn btn-primary btn-fw">
+                    Demographics
+                </button>
+
+                <button id="UnemploymentGraphs" href="javascript:setgraphs('education')" type="button"
+                        class="btn btn-primary btn-fw">
+                    Education
+                </button>
+
+            </div>
+        </div>
+    </div>-->
+                <!--<div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-4 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body pb-0">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="card-title mb-0">Unemployment</h4>
+                                <p id="unemploymentDelta" class="font-weight-semibold mb-0"></p>
+                            </div>
+                            <h3 id="unemploymentttl" class="font-weight-medium"></h3>
+                        </div>
+                        <div id="unemply-chart-parent">
+                            <canvas class="mt-n3" height="90" id="unemply-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body pb-0">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="card-title mb-0">Average Deaths</h4>
+                            </div>
+                            <h3 id="ttldeaths" class="font-weight-medium"></h3>
+                        </div>
+                        <canvas class="mt-n3" height="90" id="ttldeathschart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body pb-0">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="card-title mb-0">Overdose Deaths</h4>
+                            </div>
+                            <h3 id="ttloddeaths" class="font-weight-medium"></h3>
+                        </div>
+                        <canvas class="mt-n3" height="90" id="ttloddeathschart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body pb-0">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="card-title mb-0">Overdose Deaths</h4>
+                            </div>
+                            <h3 id="ttloddeaths" class="font-weight-medium"></h3>
+                        </div>
+                        <canvas class="mt-n3" height="90" id="ttloddeathschart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+                <footer class="footer">
+                    <div class="container-fluid clearfix">
+                        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">CSE6242 Project</span>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Team #114</span>
+                    </div>
+                </footer>
+                <!-- partial -->
+            </div>
                         <!-- main-panel ends -->
                     </div>
                     <!-- page-body-wrapper ends -->
@@ -523,13 +521,13 @@
                 Promise.all([counties, rollupData, rollupTotalsData, rollupTotalsFIPSData, MortalityPredict, MortPredict,
                     rollupTotalsYearsData, Coeeficients1Data, Coeeficients2Data, HydroGramPredict,OxyGramPredict]).then(values => {
                         addCorrelationCharts("10001", coeff2, drugs);
-                        addCorrelationChartsPart2("10001", coeff2, drugs);
-                        addCorrelationChartsPart3("10001", coeff2, drugs);
-                        totalUpdate("00000", "unemployment_rate", '#unemploymentDelta', 'unemply-chart', 'Unemployment', "Percentage");
-                        totalUpdate("00000", "DEATHS_CENSUS", '#ttldeaths', 'ttldeathschart', 'Total Deaths');
-                        totalUpdate("00000", "All_Overdose_deaths", '#ttloddeaths', 'ttloddeathschart', 'Overdose Deaths');  
-                        add_predict("10001", predictions, drugs);
-                        add_predict2("10001", predictions, drugs);
+                        //addCorrelationChartsPart2("10001", coeff2, drugs);
+                        //addCorrelationChartsPart3("10001", coeff2, drugs);
+                        //totalUpdate("00000", "unemployment_rate", '#unemploymentDelta', 'unemply-chart', 'Unemployment', "Percentage");
+                        //totalUpdate("00000", "DEATHS_CENSUS", '#ttldeaths', 'ttldeathschart', 'Total Deaths');
+                        //totalUpdate("00000", "All_Overdose_deaths", '#ttloddeaths', 'ttloddeathschart', 'Overdose Deaths');  
+                        //add_predict("10001", predictions, drugs);
+                        //add_predict2("10001", predictions, drugs);
                         setupResizeMap();
                     });
 

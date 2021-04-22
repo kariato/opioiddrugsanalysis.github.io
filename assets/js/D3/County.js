@@ -196,15 +196,22 @@ function fipsUpdate(fipcode, headcol, targethead, chartlabelid, chartlabel, fmt)
             headers = ['median_household_income', 'indiv_in_poverty', 'num_degree_holders', 'indiv_in_school',
                 'pop_nonwhite', 'num_veterans', 'housing_units', 'median_home_value', 'num_homes_with_mortgage',
                 'median_monthly_housing_costs', 'est_total_bedrooms',
-                'pop_labor_jobs', 'Unemployment_rate', 'osha_deaths', 'POPESTIMATE',
+                'pop_labor_jobs', 'unemployment_rate', 'osha_deaths', 'POPESTIMATE',
                 'nonviolent_crime_for_county', 'violent_crime_for_county', 'GRAMS_HYDROCODONE', 'GRAMS_OXYCODONE', 'Opioid_Deaths',
-                'QUANTITY_HYDROCODONE', 'Strength_HYDROCODONE', 'DRUG_NAME_OXYCODONE', 'GRAMS_OXYCODONE', 'QUANTITY_OXYCODONE',
-                'Strength_OXYCODONE', 'Opioid_death_Crude_Rate', 'All_Overdose_deaths',
+                'QUANTITY_HYDROCODONE',  'GRAMS_OXYCODONE', 'QUANTITY_OXYCODONE', 
+                'QUANTITY_HYDROCODONE_PER_PERSON', 'QUANTITY_OXYCODONE_PER_PERSON', 'GRAMS_HYDROCODONE_PER_PERSON', 'GRAMS_OXYCODONE_PER_PERSON'];
+
+            header_texts = ['median_household_income', 'indiv_in_poverty', 'num_degree_holders', 'indiv_in_school',
+                'poulation_nonwhite', 'number_of_veterans', 'housing_units', 'median_home_value', 'num_homes_with_mortgage',
+                'median_monthly_housing_costs', 'est_total_bedrooms',
+                'poulation_labor_jobs', 'unemployment_rate', 'osha_deaths', 'Population Estimates',
+                'non-violent_crime_for_county', 'violent_crime_for_county', 'GRAMS_HYDROCODONE', 'GRAMS_OXYCODONE', 'Opioid_Deaths',
+                'QUANTITY_HYDROCODONE', 'GRAMS_OXYCODONE', 'QUANTITY_OXYCODONE',
                 'QUANTITY_HYDROCODONE_PER_PERSON', 'QUANTITY_OXYCODONE_PER_PERSON', 'GRAMS_HYDROCODONE_PER_PERSON', 'GRAMS_OXYCODONE_PER_PERSON'];
 
             var option_select = d3.select('#selectors').append("div");
             for (var i = 0, size = headers.length; i < size; i++) {
-                property1s = headers[i].replace(/_/g, " ");
+                property1s = header_texts[i].replace(/_/g, " ");
                 property1s = property1s.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
                 javastr = "javascript:setfeat('" + headers[i] + "')";
                 var opt = option_select.append("a")
@@ -244,7 +251,23 @@ function fipsUpdate(fipcode, headcol, targethead, chartlabelid, chartlabel, fmt)
 };
 
 function setgraphs(graphtypes) {
+    //Unemployment
+    //'pop_labor_jobs', 'unemployment_rate',
+    //    'nonviolent_crime_for_county', 'violent_crime_for_county',
+    //    Income
+    //'indiv_in_poverty', median_household_income, 'median_home_value', 'unemployment_rate'
+    //Housing
+    //'housing_units', 'median_home_value', 'num_homes_with_mortgage',
+    //    'median_monthly_housing_costs', 'est_total_bedrooms',
+    //    Opioid_Deaths
 
+    //'Opioid_Deaths',  , 'osha_deaths',
+    //    'GRAMS_HYDROCODONE_PER_PERSON', 'GRAMS_OXYCODONE_PER_PERSON'
+    //Demographics
+    //'median_household_income', 'pop_nonwhite', 'num_veterans', 'POPESTIMATE',
+    //    Education
+    //'num_degree_holders', 'indiv_in_school',
+    //    female_bach_degree, male_bach_degree,
 }
 
 function setfeat(feat) {
@@ -287,7 +310,6 @@ function setyear(feat) {
                     state = states[d.id.substr(0, 2)]['State'];
                     
                     if (property2 == "All") {
-                        odd = drugTotalsFIPS[d.id]["All_Overdose_deaths"];
                         od = drugTotalsFIPS[d.id]["Opioid_Deaths"];
                         pop = drugTotalsFIPS[d.id]["POPESTIMATE"];
                         HYDROCODONE_PER_PERSON = drugTotalsFIPS[d.id]["QUANTITY_HYDROCODONE_PER_PERSON"];
@@ -296,7 +318,6 @@ function setyear(feat) {
                         GRAMS_OXYCODONE_PER_PERSON = drugTotalsFIPS[d.id]["GRAMS_OXYCODONE_PER_PERSON"];
                         featureValue = drugTotalsFIPS[d.id][property1];
                     } else {
-                        odd = drugs[d.id]["All_Overdose_deaths"][property2];
                         od = drugs[d.id]["Opioid_Deaths"][property2];
                         pop = drugs[d.id]["POPESTIMATE"][property2];
                         HYDROCODONE_PER_PERSON = drugs[d.id]["QUANTITY_HYDROCODONE_PER_PERSON"][property2];
@@ -308,7 +329,6 @@ function setyear(feat) {
                     return "<ul><li>County: " + d.properties.name +
                         "</li><li> State: " + state + 
                         "</li><li> " + property1s + ": " + formatThousandsNoRounding(featureValue, 4) +
-                        "</li><li> Overdose Deaths: " + formatThousandsNoRounding(odd,0) +
                         "</li><li> Opioid Deaths: " + formatThousandsNoRounding(od,0) +
                         "</li><li> Population: " + formatThousandsNoRounding(pop, 0) +
                        "</li><li> HYDROCODONE PER PERSON (pills): " + formatThousandsNoRounding(HYDROCODONE_PER_PERSON,3) +
@@ -357,8 +377,11 @@ function setyear(feat) {
                     add_predict2(d.id, predictions, drugs);
                     state = states[d.id.substr(0, 2)]['State'];
                     cnty = d.properties.name;
-                    $("#StateName").html(state);
+                    $("#StateName").html("State: "+state);
                     $("#CountyName").html("County: " + cnty);
+                    if (property2 == "All") { pop = drugTotalsFIPS[d.id]["POPESTIMATE"]; }
+                    else { pop = drugs[d.id]["POPESTIMATE"][property2];}
+                    $("#PopulationValue").html("Population: " + formatThousandsNoRounding(pop,0));
                     console.log(d.id);
                 });
 
@@ -619,7 +642,8 @@ function add_predict2(fips, predict, drughist) {
     addChart(canvasID, "line", chartTitle, "Data per year", listOfLabels1, listOfValues1, listOfOxyLabels, listOfOxyValues, listOfHydroLabels, listOfHydroValues);
 
 }
-   
+
+
             
 
 

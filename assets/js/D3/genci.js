@@ -1,4 +1,6 @@
 // JavaScript source code
+charts = []
+
 const argSort = (labelsList, valuesList) => labelsList
     .map((item, index) => [valuesList[index], item])
     .sort(([arg1], [arg2]) => arg2 - arg1)
@@ -25,6 +27,12 @@ function isNumeric(str) {
 
 
 function cleanCanvas() {
+
+    for (i = 0; i < charts.length; i++)
+    {
+        charts[i].destroy();
+    }
+    
     document.getElementById("correlated1").width += 0;
     document.getElementById("correlated2").width += 0;
     document.getElementById("correlated3").width += 0;
@@ -188,14 +196,16 @@ function getTop3Contributers(countyDataDict) {
 
 function addCorrelationCharts(fips, allCountiesDataDict, historicalDrugsData) {
 
+    top3Contributers = getTop3Contributers(allCountiesDataDict[fips]);
+    if (top3Contributers.length < 3) { return;}
     //alert("I'm getting fired");
     cleanCanvas();
 
-    top3Contributers = getTop3Contributers(allCountiesDataDict[fips]);
+    
 
-    firstContributerData = historicalDrugsData[fips][top3Contributers[0]];
-    secondContributerData = historicalDrugsData[fips][top3Contributers[1]];
-    thirdContributerData = historicalDrugsData[fips][top3Contributers[2]];
+    firstContributerData = historicalDrugsData[fips][top3Contributers[0].toLowerCase()];
+    secondContributerData = historicalDrugsData[fips][top3Contributers[1].toLowerCase()];
+    thirdContributerData = historicalDrugsData[fips][top3Contributers[2].toLowerCase()];
 
     canvasID = "correlated1"
     chartType = "line"
@@ -219,7 +229,7 @@ function addCorrelationCharts(fips, allCountiesDataDict, historicalDrugsData) {
     chartLabel2 = "Data for:"
     listOfLabels2 = [];
     listOfValues2 = [];
-    for (var key in firstContributerData) {
+    for (var key in secondContributerData) {
         listOfLabels2.push(key);
         listOfValues2.push(secondContributerData[key]);
     }
@@ -230,7 +240,7 @@ function addCorrelationCharts(fips, allCountiesDataDict, historicalDrugsData) {
 
     canvasID3 = "correlated3"
     chartType3 = "line"
-    chartTitle3 = "Second correlated factor: " + top3Contributers[2];
+    chartTitle3 = "Third correlated factor: " + top3Contributers[2];
     chartLabel3 = "Data for:"
     listOfLabels3 = [];
     listOfValues3 = [];
@@ -283,11 +293,20 @@ function addChart(canvasID, chartType, chartTitle, chartLabel, listOfLabels, lis
 
 
     oxyMax = Math.max(...oxyValues);
-    hydroMax = Math.max(...hydroValues);
-    opioidMax = Math.max(oxyMax, hydroMax);
-    let correlatedMax = Math.max(...listOfData);
+    oxyMin = Math.min(...oxyValues);
 
-    new Chart(document.getElementById(canvasID), {
+    hydroMax = Math.max(...hydroValues);
+    hydroMin = Math.min(...hydroValues);
+
+    oxyMin = Math.min(...oxyValues);
+
+    opioidMax = Math.min(oxyMax, hydroMax);
+    opioidMin = Math.min(oxyMin, hydroMin);
+
+    let correlatedMax = Math.max(...listOfData);
+    let correlatedMin = Math.min(...listOfData);
+
+    aChart = new Chart(document.getElementById(canvasID), {
         type: chartType,
         data: {
             labels: listOfLabels,
@@ -330,24 +349,23 @@ function addChart(canvasID, chartType, chartTitle, chartLabel, listOfLabels, lis
             scales: {
                 yAxes: [{
                     id: 'B',
-                    type: 'linear',
-                    ticks: {
-                        max: Math.round(opioidMax / 1000) * 1000 + 100,
-                        min: 0
-                    }
+                    type: 'linear'
+                    
                 }, {
                     id: 'A',
                     type: 'linear',
                     position: 'right',
                         ticks: {
-                            max: correlatedMax ,// Math.round(opioidMax / 1000) * 1000,
-                            min: 0
+                            max: correlatedMax,// Math.round(opioidMax / 1000) * 1000,
+                            min: correlatedMin
                         }
 
                 }]
             }
         }
     });
+    charts.push(aChart);
+
 
 
 }

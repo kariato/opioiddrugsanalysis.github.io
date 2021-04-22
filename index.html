@@ -56,9 +56,22 @@
             <!-- partial -->
             <div class="main-panelx">
                 <div class="content-wrapper">
-
                     <div class="row">
-                        <div class="col-md-8 grid-margin stretch-card">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div  class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 id="StateName" class="m-0 font-weight-bold text-primary">United States</h6>
+                            </div>
+                            <div  class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 id="CountyName" class="m-0 font-weight-bold text-primary">County: All</h6>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 id="PopulationValue" class="m-0 font-weight-bold text-primary">Population: 314,043,884</h6>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Opioid County Map</h6>
@@ -77,30 +90,54 @@
                                                 <h6 class="dropdown-header">Settings</h6>
                                             </div>
                                         </div>
-                                        <button id="StateName" type="button" class="btn btn-primary btn-fw">United States</button>
-                                        <button id="CountyName" type="button" class="btn btn-primary btn-fw">County: All</button>
-                                        <button id="YearValue" type="button" class="btn btn-primary btn-fw">Year: All</button>
-                                        <button id="FeatureName" type="button" class="btn btn-primary btn-fw">Feature: GRAMS OXYCODONE PER PERSON</button>
                                         <!--<div id="dashboard-vmap" class="vector-map"></div>-->
                                         <div id="root">
-                                            <div class="row align-items-end">
 
+                                        </div>
+                                        <div class="row align-items-end">
+
+
+                                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                                <h6 id="FeatureName" class="m-0 font-weight-bold text-primary">Feature: Grams Oxycodone Per Person </h6>
+                                            </div>
+                                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                                <h6 id="YearValue" class="m-0 font-weight-bold text-primary">Year: All</h6>
                                             </div>
                                         </div>
+                                        <div class="template-demo">
+
+                                            <a href="CSE6242_Project_Final_Report_v3.pdf" type="button"
+                                                    class="btn btn-primary btn-fw">
+                                                Project Report
+                                            </a>
+                                            <a href="Poster.pdf" type="button"
+                                                    class="btn btn-primary btn-fw">
+                                                Poster
+                                            </a>
+                                            <a href="Static.pdf" type="button"
+                                                    class="btn btn-primary btn-fw">
+                                                Static Data
+                                            </a>
+
+                                        </div>
                                     </div>
+                                    <h4 class="m-0 font-weight-bold text-primary"> </h4>
+                                    <h4 class="m-0 font-weight-bold text-primary"> </h4>
                                 </div>
+                                <h4 class="m-0 font-weight-bold text-primary"> </h4>
                             </div>
+ 
                         </div>
-                        <div class="col-md-4 grid-margin stretch-card">
+                        <div class="col-md-5 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body d-flex flex-column">
                                     <div class="mb-4" id="net-profit-legend">
-                                        <b>Correlate #1:</b>
+                                        <b>Historical charts of:</b>
                                         <canvas id="correlated1"></canvas>
                                     </div>
                                     <!--<canvas class="mt-n4" height="90" id="total-revenue"></canvas>-->
-                                    <div class="mb-4" id="net-profit-legend"><b>Correlate #2:</b> <canvas id="correlated2"></canvas></div>
-                                    <div class="mb-4" id="net-profit-legend"><b>Correlate #3:</b> <canvas id="correlated3"></canvas></div>
+                                    <div class="mb-4" id="net-profit-legend"> <canvas id="correlated2"></canvas></div>
+                                    <div class="mb-4" id="net-profit-legend"><canvas id="correlated3"></canvas></div>
                                 </div>
                             </div>
                         </div>
@@ -108,13 +145,7 @@
                     <div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h4 class="m-0 font-weight-bold text-primary">Digging deeper</h4>
-                            </div>
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">County: Cobb County, Georgia</h6>
-                            </div>
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Population 700,000</h6>
+                                <h4 class="m-0 font-weight-bold text-primary">Digging Deeper</h4>
                             </div>
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary">
@@ -126,14 +157,14 @@
                     <div class="row">
                         <div class="col-md-8 grid-margin stretch-card">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Model Projection Optiod Usage</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">“Hydrocodone and Oxycodone -- Current and Projected Usage</h6>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-8 grid-margin stretch-card">
                             <div class="card">
-                                <div class="mb-8" id="net-profit-legend"><b>Correlate #1:</b> <canvas id="projected21"></canvas></div>
+                                <div class="mb-8" id="net-profit-legend"><b>Historical chart of correlated factor #2:</b> <canvas id="projected21"></canvas></div>
                             </div>
                         </div>
                     </div>
@@ -164,7 +195,7 @@
                     <div class="row">
                         <div class="col-md-8 grid-margin stretch-card">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Model Projection Optiod Mortality</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Opioid Deaths -- Current and Projected Usage</h6>
                             </div>
                         </div>
                     </div>
@@ -333,6 +364,7 @@
         var chartHandles = {};
         var chartRefs = {};
         var predictions = {};
+        var mort = {};
 
         var countiesPromise = d3.json("data\\counties-albers-10m.json")
             .then(function (data) {
@@ -433,8 +465,10 @@
                     }
                     if (!("hydro" in predictions[padded_key])) {
                         predictions[padded_key]["hydro"] = {};
+                        predictions[padded_key]["hydro100K"] = {};
                     }
                     predictions[padded_key]["hydro"][data[i].year] = data[i].pred_grams_hydro;
+                    predictions[padded_key]["hydro100K"][data[i].year] = data[i].pred_grams_hydro_per100k
 
                 }
             });
@@ -447,9 +481,38 @@
                     }
                     if (!("oxy" in predictions[padded_key])) {
                         predictions[padded_key]["oxy"] = {};
+                        predictions[padded_key]["oxy100K"] = {};
                     }
                     predictions[padded_key]["oxy"][data[i].year] = data[i].pred_grams_oxy;
+                    predictions[padded_key]["oxy100K"][data[i].year] = data[i].pred_grams_oxy_per100k
 
+                }
+            });
+        const MortPredict = d3.csv("data\\futureyears_mortality_without_drugs.csv")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    padded_key = data[i].fips.padStart(5, 0);
+                    if (!(padded_key in predictions)) {
+                        predictions[padded_key] = {};
+                    }
+                    if (!("pred_mortality_count" in predictions[padded_key])) {
+                        predictions[padded_key]["pred_mortality_count"] = {};
+                    }
+                    predictions[padded_key]["pred_mortality_count"][data[i].year] = data[i].pred_mortality_count;
+
+                }
+            });
+
+        const MortalityPredict = d3.csv("data\\Mortality_correlation_v2.csv")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    padded_key = data[i].fips.padStart(5, 0);
+                    if (!(padded_key in coeff1)) {
+                        mort[padded_key] = {}
+                    }
+                    Object.keys(data[i]).forEach(function (key) {
+                        mort[padded_key][key] = data[i][key]
+                    });
                 }
             });
 
@@ -457,7 +520,7 @@
             'use strict';
             $(function () {
 
-                Promise.all([counties, rollupData, rollupTotalsData, rollupTotalsFIPSData,
+                Promise.all([counties, rollupData, rollupTotalsData, rollupTotalsFIPSData, MortalityPredict, MortPredict,
                     rollupTotalsYearsData, Coeeficients1Data, Coeeficients2Data, HydroGramPredict,OxyGramPredict]).then(values => {
                         addCorrelationCharts("10001", coeff2, drugs);
                         addCorrelationChartsPart2("10001", coeff2, drugs);

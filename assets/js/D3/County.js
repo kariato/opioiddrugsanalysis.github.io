@@ -1,6 +1,29 @@
 // JavaScript source code
 
+var miniCharts = [];
+var miniChartIds = [];
+var currentFips = "00000";
+var minilabels = "Unemployment";
 
+function cleanMiniCanvas() {
+
+    for (i = 0; i < miniCharts.length; i++) {
+        miniCharts[i].destroy();
+    }
+
+    for (i = 0; i < miniChartIds.length; i++) {
+        document.getElementById(miniChartIds[i]).width += 0;
+        document.getElementById(miniChartIds[i]).html = "";
+    }
+    miniChartIds = [];
+    //document.getElementById("correlated1").width += 0;
+    //document.getElementById("correlated2").width += 0;
+    //document.getElementById("correlated3").width += 0;
+    //document.getElementById("correlated1").html = "";
+    //document.getElementById("correlated2").html = "";
+    //document.getElementById("correlated3").html = "";
+
+}
 
 //https://stackoverflow.com/questions/5731193/how-to-format-numbers
 var formatThousandsNoRounding = function (n, dp) {
@@ -13,113 +36,47 @@ var formatThousandsNoRounding = function (n, dp) {
             ('00000').substr(0, dp - d.length) : e) : e);
 };
 
-function totalUpdate(fipcode, headcol, targethead, chartlabelid, chartlabel, fmt) {
-    if (fmt == "Percentage") {
-    $(targethead).html("+" + parseFloat(drugTotals[fipcode][headcol]).toFixed(2) + "%");
-    } else {
-    $(targethead).html(formatThousandsNoRounding(drugTotals[fipcode][headcol]), 0);
-    }
-    years = [];
-    unemp = [];
-    if (chartlabelid in chartRefs) {
-        chartRefs[chartlabelid].destroy();
-    }
-    Object.keys(drugTotalsYear).forEach(function (key) {years.push(key), unemp.push(drugTotalsYear[key][headcol]); });
-    chartHandles[chartlabelid] = document.getElementById(chartlabelid).getContext('2d');
-    var gradientStrokeFill_1 = chartHandles[chartlabelid].createLinearGradient(0, 100, 200, 0);
-    gradientStrokeFill_1.addColorStop(0, '#fa5539');
-    gradientStrokeFill_1.addColorStop(1, '#fa3252');
 
-    var areaData = {
-    labels: years,
-        datasets: [{
-    label: chartlabel,
-            data: unemp,
-            backgroundColor: gradientStrokeFill_1,
-            borderColor: '#fa394e',
-            borderWidth: 0,
-            pointBackgroundColor: "#fa394e",
-            pointRadius: 7,
-            pointBorderWidth: 3,
-            pointBorderColor: '#fff',
-            pointHoverRadius: 7,
-            pointHoverBackgroundColor: "#fa394e",
-            pointHoverBorderColor: "#fa394e",
-            pointHoverBorderWidth: 2,
-            pointHitRadius: 7,
-        }]
-    };
-    var areaOptions = {
-    responsive: true,
-        animation: {
-    animateScale: true,
-            animateRotate: true
-        },
-        elements: {
-    point: {
-    radius: 0
-            }
-        },
-        layout: {
-    padding: {
-    left: -10,
-                right: 0,
-                top: 0,
-                bottom: -10
-            }
-        },
-        legend: false,
-        scales: {
-    xAxes: [{
-    gridLines: {
-    display: false
-                },
-                ticks: {
-    display: false
-                }
-            }],
-            yAxes: [{
-    gridLines: {
-    display: false
-                },
-                ticks: {
-    display: false
-                }
-            }]
+
+function fipsUpdate(fipcode, boxid, title, headcol, fmt) {
+    $("#detail-title" + boxid).html(title);
+    xaxis = [];
+    yaxis = [];
+    if (fipcode == "00000") {
+        if (fmt == "Percentage") {
+            $("#detail-delta" + boxid).html("+" + parseFloat(drugTotals[fipcode][headcol]).toFixed(2) + "%");
+            $("#detail-ttl" + boxid).html("");
+        } else {
+            $("#detail-delta" + boxid).html("")
+            $("#detail-ttl"+boxid).html(formatThousandsNoRounding(drugTotals[fipcode][headcol]), 0);
         }
-    }
-    chartRefs[chartlabelid] = new Chart(chartHandles[chartlabelid], {
-    type: 'line',
-        data: areaData,
-        options: areaOptions
-    });
-};
-
-function fipsUpdate(fipcode, headcol, targethead, chartlabelid, chartlabel, fmt) {
-   
-    if (fmt == "Percentage") {
-        $(targethead).html("+" + parseFloat(drugTotalsFIPS[fipcode][headcol]).toFixed(2) + "%");
+        Object.keys(drugTotalsYear).forEach(function (key) { xaxis.push(key), yaxis.push(drugTotalsYear[key][headcol]); });
     } else {
-        $(targethead).html(formatThousandsNoRounding(drugTotalsFIPS[fipcode][headcol]), 0);
+        if (fmt == "Percentage") {
+            $("#detail-ttl" + boxid).html("")
+            $("detail-delta" + boxid).html("+" + parseFloat(drugTotalsFIPS[fipcode][headcol]).toFixed(2) + "%");
+        } else {
+            $("#detail-delta" + boxid).html("")
+            $("#detail-ttl" + boxid).html(formatThousandsNoRounding(drugTotalsFIPS[fipcode][headcol]), 0);
+        }
+        Object.keys(drugs[fipcode][headcol]).forEach(function (key) { xaxis.push(key), yaxis.push(drugs[fipcode][headcol][key]); });
     }
-    years = [];
-    unemp = [];
-    if (chartlabelid in chartRefs) {
-        chartRefs[chartlabelid].destroy();
-    }
-    Object.keys(drugTotalsYear).forEach(function (key) { years.push(key), unemp.push(drugTotalsFIPS[fipcode][headcol][key]); });
-    chartHandles[chartlabelid] = document.getElementById(chartlabelid).getContext('2d');
-    var gradientStrokeFill_1 = chartHandles[chartlabelid].createLinearGradient(0, 100, 200, 0);
+    
+
+    
+    chartlabelHand = document.getElementById("detail-chart" + boxid);
+    var ctx = chartlabelHand.getContext('2d');
+    miniChartIds.push("detail-chart" + boxid)
+    var gradientStrokeFill_1 = ctx.createLinearGradient(0, 100, 200, 0);
     gradientStrokeFill_1.addColorStop(0, '#fa5539');
     gradientStrokeFill_1.addColorStop(1, '#fa3252');
 
     var areaData = {
-        labels: years,
+        labels: xaxis,
         datasets: [{
-            label: chartlabel,
-            data: unemp,
-            backgroundColor: gradientStrokeFill_1,
+            data: yaxis,
             borderColor: '#fa394e',
+            backgroundColor: gradientStrokeFill_1,
             borderWidth: 0,
             pointBackgroundColor: "#fa394e",
             pointRadius: 7,
@@ -171,11 +128,12 @@ function fipsUpdate(fipcode, headcol, targethead, chartlabelid, chartlabel, fmt)
             }]
         }
     }
-    chartRefs[chartlabelid] = new Chart(chartHandles[chartlabelid], {
+    chartmini = new Chart(ctx, {
         type: 'line',
         data: areaData,
         options: areaOptions
     });
+    miniCharts.push(chartmini);
 };
         var config = { "defaultValue": "GRAMS_OXYCODONE_PER_PERSON" };
         var property1 = "GRAMS_OXYCODONE_PER_PERSON";
@@ -251,23 +209,56 @@ function fipsUpdate(fipcode, headcol, targethead, chartlabelid, chartlabel, fmt)
 };
 
 function setgraphs(graphtypes) {
-    //Unemployment
-    //'pop_labor_jobs', 'unemployment_rate',
-    //    'nonviolent_crime_for_county', 'violent_crime_for_county',
-    //    Income
-    //'indiv_in_poverty', median_household_income, 'median_home_value', 'unemployment_rate'
+    cleanMiniCanvas();
+    minilabels = graphtypes;
+    if (graphtypes=="Unemployment") {
+        fipsUpdate(currentFips, 1, "Unemployment%", 'unemployment_rate', "Percentage");
+        fipsUpdate(currentFips, 2, "Labor Jobs", 'pop_labor_jobs', "Absolute");
+        fipsUpdate(currentFips, 3, "Non-Violent Crime", 'nonviolent_crime_for_county', "Absolute");
+        fipsUpdate(currentFips, 4, "Violent Crime", 'violent_crime_for_county', "Absolute");
+    }
+
+    if (graphtypes == "Income") {
+        fipsUpdate(currentFips, 1, "Household Income", 'median_household_income', "Absolute");
+        fipsUpdate(currentFips, 2, "Poverty #", 'indiv_in_poverty', "Absolute");
+        fipsUpdate(currentFips, 3, "House Cost", 'median_monthly_housing_costs', "Absolute");
+        fipsUpdate(currentFips, 4, "Unemployment%", 'housing_units', "Absolute");
+    }
     //Housing
     //'housing_units', 'median_home_value', 'num_homes_with_mortgage',
     //    'median_monthly_housing_costs', 'est_total_bedrooms',
     //    Opioid_Deaths
-
+    if (graphtypes == "Housing") {
+        fipsUpdate(currentFips, 1, "House$", 'median_home_value', "Absolute");
+        fipsUpdate(currentFips, 2, "Mortgages#", 'num_homes_with_mortgage', "Absolute");
+        fipsUpdate(currentFips, 3, "House#", 'housing_units', "Absolute");
+        fipsUpdate(currentFips, 4, "Bedroom#", 'est_total_bedrooms', "Absolute");
+    }
     //'Opioid_Deaths',  , 'osha_deaths',
     //    'GRAMS_HYDROCODONE_PER_PERSON', 'GRAMS_OXYCODONE_PER_PERSON'
+    if (graphtypes == "Opioid_Deaths") {
+        fipsUpdate(currentFips, 1, "Opioid Deaths", 'Opioid_Deaths', "Absolute");
+        fipsUpdate(currentFips, 2, "Osha Deaths", 'osha_deaths', "Absolute");
+        fipsUpdate(currentFips, 3, "Hydro(grams)", 'GRAMS_HYDROCODONE_PER_PERSON', "Absolute");
+        fipsUpdate(currentFips, 4, "Oxy(grams)", 'GRAMS_OXYCODONE_PER_PERSON', "Absolute");
+    }
     //Demographics
     //'median_household_income', 'pop_nonwhite', 'num_veterans', 'POPESTIMATE',
     //    Education
+    if (graphtypes == "Demographics") {
+        fipsUpdate(currentFips, 1, "Population", 'POPESTIMATE', "Absolute");
+        fipsUpdate(currentFips, 2, "Minority#", 'pop_nonwhite', "Absolute");
+        fipsUpdate(currentFips, 3, "Veterans#", 'num_veterans', "Absolute");
+        fipsUpdate(currentFips, 4, "Income$", 'median_household_income', "Absolute");
+    }
     //'num_degree_holders', 'indiv_in_school',
     //    female_bach_degree, male_bach_degree,
+    if (graphtypes == "Education") {
+        fipsUpdate(currentFips, 1, "Degree#", 'num_degree_holders', "Absolute");
+        fipsUpdate(currentFips, 2, "InSchool#", 'indiv_in_school', "Absolute");
+        fipsUpdate(currentFips, 3, "Female Degree#", 'female_bach_degree', "Absolute");
+        fipsUpdate(currentFips, 4, "Male Degree#", 'male_bach_degree', "Absolute");
+    }
 }
 
 function setfeat(feat) {
@@ -367,14 +358,13 @@ function setyear(feat) {
                 .on('mouseout', tool_tip.hide)
                 .on('click', function (d) {
                     
-                    //fipsUpdate(d.id, "unemployment_rate", '#unemploymentDelta', 'unemply-chart', 'Unemployment', "Percentage");
-                    //fipsUpdate(d.id, "DEATHS_CENSUS", '#ttldeaths', 'ttldeathschart', 'Total Deaths');
-                    //fipsUpdate(d.id, "All_Overdose_deaths", '#ttloddeaths', 'ttloddeathschart', 'Overdose Deaths');
-                    addCorrelationCharts(d.id, coeff2, drugs); addCorrelationChartsPart2("10001", coeff2, drugs);
-                    //addCorrelationChartsPart2(d.id, coeff2, drugs);
-                    //addCorrelationChartsPart3(d.id, coeff2, drugs);
-                    //add_predict(d.id, predictions, drugs);
-                    //add_predict2(d.id, predictions, drugs);
+
+                    currentFips = d.id;
+                    setgraphs(minilabels);
+                    addCorrelationCharts(d.id, coeff2, drugs);
+                    addCorrelationChartsPart3(d.id, mort, drugs);
+                    add_predict(d.id, predictions, drugs);
+                    add_predict2(d.id, predictions, drugs);
                     state = states[d.id.substr(0, 2)]['State'];
                     cnty = d.properties.name;
                     $("#StateName").html("State: "+state);
@@ -410,96 +400,14 @@ function setyear(feat) {
                 .call(legend);
 }
 
-function addCorrelationChartsPart2(fips, allCountiesDataDict, historicalDrugsData) {
-
-    //alert("I'm getting fired");
-    //cleanCanvas();
-
-    top3Contributers = getTop3Contributers(allCountiesDataDict[fips]);
-
-    firstContributerData = historicalDrugsData[fips][top3Contributers[0]];
-    secondContributerData = historicalDrugsData[fips][top3Contributers[1]];
-    thirdContributerData = historicalDrugsData[fips][top3Contributers[2]];
-
-    canvasID = "correlated21"
-    chartType = "line"
-    chartTitle = "Top correlated factor: " + top3Contributers[0];
-    chartLabel = "Data for:"
-    listOfLabels1 = [];
-    listOfValues1 = [];
-    for (var key in firstContributerData) {
-        listOfLabels1.push(key);
-        listOfValues1.push(parseFloat(firstContributerData[key]));
 
 
-    }
-
-
-
-
-    canvasID2 = "correlated22"
-    chartType2 = "line"
-    chartTitle2 = "Second correlated factor: " + top3Contributers[1];
-    chartLabel2 = "Data for:"
-    listOfLabels2 = [];
-    listOfValues2 = [];
-    for (var key in firstContributerData) {
-        listOfLabels2.push(key);
-        listOfValues2.push(secondContributerData[key]);
-    }
-
-
-
-
-
-    canvasID3 = "correlated23"
-    chartType3 = "line"
-    chartTitle3 = "Second correlated factor: " + top3Contributers[2];
-    chartLabel3 = "Data for:"
-    listOfLabels3 = [];
-    listOfValues3 = [];
-    for (var key in thirdContributerData) {
-        listOfLabels3.push(key);
-        listOfValues3.push(Math.round(thirdContributerData[key], 2));
-    }
-
-    opioidsOxy = historicalDrugsData[fips]["GRAMS_OXYCODONE"];
-    opioidsHydro = historicalDrugsData[fips]["GRAMS_HYDROCODONE"];
-
-
-    listOfOxyLabels = []
-    listOfOxyValues = []
-    listOfHydroLabels = []
-    listOfHydroValues = []
-
-    for (var key in opioidsOxy) {
-        listOfOxyLabels.push(key);
-        listOfOxyValues.push(Math.round(parseFloat(opioidsOxy[key]), 2));
-    }
-
-
-    for (var key in opioidsHydro) {
-        listOfHydroLabels.push(key);
-        listOfHydroValues.push(Math.round(parseFloat(opioidsHydro[key]), 2));
-    }
-
-    //, listOfOxyLabels, listOfOxyValues, listOfHydroLabels, listOfHydroValues
-    addChart(canvasID, "line", chartTitle, "Data per year", listOfLabels1, listOfValues1, listOfOxyLabels, listOfOxyValues, listOfHydroLabels, listOfHydroValues);
-    addChart(canvasID2, "line", chartTitle2, "Data per year", listOfLabels2, listOfValues2, listOfOxyLabels, listOfOxyValues, listOfHydroLabels, listOfHydroValues);
-    addChart(canvasID3, "line", chartTitle3, "Data per year", listOfLabels3, listOfValues3, listOfOxyLabels, listOfOxyValues, listOfHydroLabels, listOfHydroValues);
-
-    //document.getElementById("correlated1").width += 0;
-    //document.getElementById("correlated2").width += 0;
-    //document.getElementById("correlated3").width += 0;
-}
-
-
-    function addCorrelationChartsPart3(fips, allCountiesDataDict, historicalDrugsData) {
+    function addCorrelationChartsPart3(fips, mortcorr, historicalDrugsData) {
 
         //alert("I'm getting fired");
         //cleanCanvas();
-
-        top3Contributers = getTop3Contributers(allCountiesDataDict[fips]);
+        endingKeys = ["_Mortality"];
+        top3Contributers = getTop3Contributers(mortcorr[fips], endingKeys);
 
         firstContributerData = historicalDrugsData[fips][top3Contributers[0]];
         secondContributerData = historicalDrugsData[fips][top3Contributers[1]];
@@ -581,65 +489,79 @@ function addCorrelationChartsPart2(fips, allCountiesDataDict, historicalDrugsDat
 function add_predict(fips, predict, drughist) {
     canvasID = "projected21"
     chartType = "line"
-    chartTitle = "Top correlated factor: " + top3Contributers[0];
+    chartTitle = "Predicted drug gram amounts";
     chartLabel = "Data for:"
     listOfLabels1 = [];
     listOfValues1 = [];
     for (var key in drughist[fips]['GRAMS_OXYCODONE']) {
-        listOfLabels1.push(key);
+        listOfLabels1.push(parseFloat(key));
         listOfValues1.push(Math.round(parseFloat(drughist[fips]['GRAMS_OXYCODONE'][key]),2));
 
 
     }
 
+    listOfLabels2 = [];
+    listOfValues2 = [];
+    for (var key in drughist[fips]['GRAMS_HYDROCODONE']) {
+        listOfLabels2.push(parseFloat(key));
+        listOfValues2.push(Math.round(parseFloat(drughist[fips]['GRAMS_HYDROCODONE'][key]), 2));
+
+
+    }
+   
+    
+
     listOfOxyLabels = []
     listOfOxyValues = []
     listOfHydroLabels = []
     listOfHydroValues = []
 
+    listOfOxyLabels = [2006, 2007, 2008, 2009, 2010, 2011, 2012];
+    listOfHydroLabels = [2006, 2007, 2008, 2009, 2010, 2011, 2012];
+    listOfHydroValues = [0, 0, 0, 0, 0, 0, 0];
+    listOfOxyValues = [0, 0, 0, 0, 0, 0, 0];
     for (var key in predict[fips]["oxy"]) {
-        listOfOxyLabels.push(key);
+        listOfOxyLabels.push(parseFloat(key));
         listOfOxyValues.push(Math.round(parseFloat(predict[fips]["oxy"][key]), 2));
     }
 
 
+
     for (var key in predict[fips]["hydro"]) {
-        listOfHydroLabels.push(key);
+        listOfHydroLabels.push(parseFloat(key));
         listOfHydroValues.push(Math.round(parseFloat(predict[fips]["hydro"][key]), 2));
     }
-    addChart(canvasID, "line", chartTitle, "Data per year", listOfLabels1, listOfValues1, listOfOxyLabels, listOfOxyValues, listOfHydroLabels, listOfHydroValues);
+    //addChart(canvasID, "line", chartTitle, "Data per year", listOfLabels1, listOfValues1, listOfOxyLabels, listOfOxyValues, listOfHydroLabels, listOfHydroValues);
+
+    allSets = { 'Pred. Oxy': [listOfOxyLabels, listOfOxyValues], 'Pred. Hydro': [listOfHydroLabels, listOfHydroValues], 'Hist. Oxy': [listOfLabels1, listOfValues1], 'Hist. Hydro': [listOfLabels2, listOfValues2 ]}
+    //addChart( "Data per year", listOfOxyLabels, listOfOxyValues, listOfHydroLabels, listOfHydroValues, listOfLabels1, listOfValues1);
+    addChartDynamic(canvasID, "line", chartTitle, allSets);
 
 }
+
 function add_predict2(fips, predict, drughist) {
     canvasID = "projected22"
     chartType = "line"
-    chartTitle = "Top correlated factor: " + top3Contributers[0];
+    chartTitle = "Estimated Opioid Drug Deaths";
     chartLabel = "Data for:"
     listOfLabels1 = [];
     listOfValues1 = [];
-    for (var key in drughist[fips]['GRAMS_OXYCODONE']) {
-        listOfLabels1.push(key);
-        listOfValues1.push(Math.round(parseFloat(drughist[fips]['GRAMS_OXYCODONE'][key]), 2));
-
-
+    for (var key in drughist[fips]['Opioid_Deaths']) {
+        listOfLabels1.push(parseFloat(key));
+        listOfValues1.push(Math.round(parseFloat(drughist[fips]['Opioid_Deaths'][key]), 2));
     }
 
-    listOfOxyLabels = []
-    listOfOxyValues = []
-    listOfHydroLabels = []
-    listOfHydroValues = []
+    listOfMortLabels = [2006, 2007, 2008, 2009, 2010, 2011, 2012];
+    listOfMortValues = [0, 0, 0, 0, 0, 0, 0];
 
-    for (var key in predict[fips]["oxy"]) {
-        listOfOxyLabels.push(key);
-        listOfOxyValues.push(Math.round(parseFloat(predict[fips]["oxy"][key]), 2));
+    for (var key in predict[fips]["pred_mortality_count"]) {
+        listOfMortLabels.push(parseFloat(key));
+        listOfMortValues.push(Math.round(parseFloat(predict[fips]["pred_mortality_count"][key]), 2));
     }
 
-
-    for (var key in predict[fips]["hydro"]) {
-        listOfHydroLabels.push(key);
-        listOfHydroValues.push(Math.round(parseFloat(predict[fips]["hydro"][key]), 2));
-    }
-    addChart(canvasID, "line", chartTitle, "Data per year", listOfLabels1, listOfValues1, listOfOxyLabels, listOfOxyValues, listOfHydroLabels, listOfHydroValues);
+   
+    allSets = { 'Predicted Deaths': [listOfMortLabels, listOfMortValues], 'pred_hydro': [listOfLabels1, listOfValues1] }
+    addChartDynamic(canvasID, "line", chartTitle, allSets);
 
 }
 

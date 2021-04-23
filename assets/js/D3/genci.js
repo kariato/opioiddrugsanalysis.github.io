@@ -1,5 +1,6 @@
 // JavaScript source code
-charts = []
+charts = [];
+chartIds = [];
 
 const argSort = (labelsList, valuesList) => labelsList
     .map((item, index) => [valuesList[index], item])
@@ -32,13 +33,18 @@ function cleanCanvas() {
     {
         charts[i].destroy();
     }
-    
-    document.getElementById("correlated1").width += 0;
-    document.getElementById("correlated2").width += 0;
-    document.getElementById("correlated3").width += 0;
-    document.getElementById("correlated1").html = "";
-    document.getElementById("correlated2").html = "";
-    document.getElementById("correlated3").html = "";
+
+    for (i = 0; i < chartIds.length; i++) {
+        document.getElementById(chartIds[i]).width += 0;
+        document.getElementById(chartIds[i]).html = "";
+    }
+    chartIds = [];
+    //document.getElementById("correlated1").width += 0;
+    //document.getElementById("correlated2").width += 0;
+    //document.getElementById("correlated3").width += 0;
+    //document.getElementById("correlated1").html = "";
+    //document.getElementById("correlated2").html = "";
+    //document.getElementById("correlated3").html = "";
 
 }
 
@@ -150,13 +156,13 @@ function d3AddhorizontalBar() {
         });
 }
 
-function getTop3Contributers(countyDataDict) {
+function getTop3Contributers(countyDataDict, endingKeys) {
     labelList = [];
     valueList = [];
     attributes = {};
 
 
-    endingKeys = ["_grams_oxy", "_quant_oxy", "_grams_hydro", "_quant_hydro"];
+    
 
 
     for (var key in countyDataDict) {
@@ -195,8 +201,8 @@ function getTop3Contributers(countyDataDict) {
 }
 
 function addCorrelationCharts(fips, allCountiesDataDict, historicalDrugsData) {
-
-    top3Contributers = getTop3Contributers(allCountiesDataDict[fips]);
+    endingKeys = ["_grams_oxy", "_quant_oxy", "_grams_hydro", "_quant_hydro"];
+    top3Contributers = getTop3Contributers(allCountiesDataDict[fips], endingKeys);
     if (top3Contributers.length < 3) { return;}
     //alert("I'm getting fired");
     cleanCanvas();
@@ -305,7 +311,7 @@ function addChart(canvasID, chartType, chartTitle, chartLabel, listOfLabels, lis
 
     let correlatedMax = Math.max(...listOfData);
     let correlatedMin = Math.min(...listOfData);
-
+    chartIds.push(canvasID);
     aChart = new Chart(document.getElementById(canvasID), {
         type: chartType,
         data: {
@@ -362,6 +368,49 @@ function addChart(canvasID, chartType, chartTitle, chartLabel, listOfLabels, lis
 
                 }]
             }
+        }
+    });
+    charts.push(aChart);
+
+
+
+}
+
+
+function addChartDynamic(canvasID, chartType, chartTitle, dataSetDictionary) {
+
+    //var COLORS = interpolateColors(dataLength, colorScale, colorRangeInfo);
+    var COLORS = ['#fd8d3c', '#d94701', '#6baed6', '#2171b5'];
+
+    chartDS = [];
+    listOfLabels = [];
+    i = 0;
+    Object.keys(dataSetDictionary).forEach(key => {
+        dataSetDictionary[key][1].map(value => isNaN(value) ? 0 : value);
+        listOfLabels.push(dataSetDictionary[key][0]);
+        chartDS.push({
+            label: key,
+            //backgroundColor: "white",
+            borderColor: COLORS[i++],
+            data: dataSetDictionary[key][1],
+            fill: false
+        });
+    });
+
+    chartIds.push(canvasID);
+    aChart = new Chart(document.getElementById(canvasID), {
+        type: chartType,
+        data: {
+            labels: listOfLabels[0],
+            datasets: chartDS
+        },
+        options: {
+            legend: { display: true },
+            title: {
+                display: true,
+                text: chartTitle
+            }
+
         }
     });
     charts.push(aChart);

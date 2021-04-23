@@ -519,7 +519,9 @@ function add_predict(fips, predict, drughist) {
     listOfOxyLabels = [2006, 2007, 2008, 2009, 2010, 2011, 2012];
     listOfHydroLabels = [2006, 2007, 2008, 2009, 2010, 2011, 2012];
     listOfHydroValues = [0, 0, 0, 0, 0, 0, 0];
-    listOfOxyValues = [0, 0, 0, 0, 0, 0, 0];
+    listOfHydroValues = [0, 0, 0, 0, 0, 0, 0];
+    listOfHydroValues = [NaN, NaN, NaN, NaN, NaN, NaN, listOfValues2[6]];
+    listOfOxyValues = [NaN, NaN, NaN, NaN, NaN, NaN, listOfValues1[6]];
     for (var key in predict[fips]["oxy"]) {
         listOfOxyLabels.push(parseFloat(key));
         listOfOxyValues.push(Math.round(parseFloat(predict[fips]["oxy"][key]), 2));
@@ -552,15 +554,15 @@ function add_predict2(fips, predict, drughist) {
     }
 
     listOfMortLabels = [2006, 2007, 2008, 2009, 2010, 2011, 2012];
-    listOfMortValues = [0, 0, 0, 0, 0, 0, 0];
-
+    listOfMortValues = [NaN, NaN, NaN, NaN, NaN, NaN, NaN];
+    listOfMortValues[6] = listOfValues1[6];
     for (var key in predict[fips]["pred_mortality_count"]) {
         listOfMortLabels.push(parseFloat(key));
         listOfMortValues.push(Math.round(parseFloat(predict[fips]["pred_mortality_count"][key]), 2));
     }
 
    
-    allSets = { 'Predicted Deaths': [listOfMortLabels, listOfMortValues], 'pred_hydro': [listOfLabels1, listOfValues1] }
+    allSets = { '2) Predicted Deaths': [listOfMortLabels, listOfMortValues], '1) Hist. Opioid Deaths': [listOfLabels1, listOfValues1] }
     addChartDynamic(canvasID, "line", chartTitle, allSets);
 
 }

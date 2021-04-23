@@ -171,7 +171,7 @@
                     <div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Corelating Facts</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Correlating Facts</h6>
                             </div>
                         </div>
                     </div>
@@ -507,7 +507,7 @@
                     if (!("pred_mortality_count" in predictions[padded_key])) {
                         predictions[padded_key]["pred_mortality_count"] = {};
                     }
-                    predictions[padded_key]["pred_mortality_count"][data[i].year] = data[i].pred_mortality_count;
+                    predictions[padded_key]["pred_mortality_count"][data[i].year] = data[i].pred_mort;
 
                 }
             });
@@ -535,7 +535,7 @@
                         addCorrelationChartsPart3("01003", mort, drugs);
                         setgraphs("Unemployment");
                         add_predict("10001", predictions, drugs);
-                        add_predict2("10001", predictions, drugs);
+                        add_predict2("01003", predictions, drugs);
                         setupResizeMap();
                     });
 

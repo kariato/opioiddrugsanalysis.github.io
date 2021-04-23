@@ -369,9 +369,12 @@ function setyear(feat) {
                     cnty = d.properties.name;
                     $("#StateName").html("State: "+state);
                     $("#CountyName").html("County: " + cnty);
+                    $("#StateName2").html("State: " + state);
+                    $("#CountyName2").html("County: " + cnty)
                     if (property2 == "All") { pop = drugTotalsFIPS[d.id]["POPESTIMATE"]; }
                     else { pop = drugs[d.id]["POPESTIMATE"][property2];}
-                    $("#PopulationValue").html("Population: " + formatThousandsNoRounding(pop,0));
+                    $("#PopulationValue").html("Population: " + formatThousandsNoRounding(pop, 0));
+                    $("#PopulationValue2").html("Population: " + formatThousandsNoRounding(pop, 0));
                     console.log(d.id);
                 });
 

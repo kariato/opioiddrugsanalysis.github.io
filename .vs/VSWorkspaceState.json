@@ -6,9 +6,9 @@
     "\\assets\\js\\D3",
     "\\assets\\js\\demo_1",
     "\\assets\\js\\shared",
-    "\\pages",
+    "\\data",
     "\\partials"
   ],
-  "SelectedNode": "\\assets\\js\\demo_1\\dashboard.js",
+  "SelectedNode": "\\data\\coefficients_all_V3.csv",
   "PreviewInSolutionExplorer": false
 }

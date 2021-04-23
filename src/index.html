@@ -1,0 +1,547 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Visualization of the Opioid Crisis in the USA</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.addons.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="assets/css/shared/style.css">
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="assets/css/demo_1/style.css">
+    <!-- tool tips -->
+    <link rel="stylesheet" href="assets/css/demo_1/d3_tips.css">
+    <!-- End Layout styles -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
+
+    <style>
+        body {
+            align-items: center;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <a class="navbar-brand brand-logo" href="index.html">
+                    <h4>Team #114: Team Big Data</h4>
+                </a>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center">
+                <ul class="navbar-nav">
+                    <li class="nav-item font-weight-semibold d-none d-lg-block">
+                        <h2>Visualization of the Opioid Crisis in the USA</h2>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:partials/_sidebar.html -->
+            <!-- partial -->
+            <div class="container-fluid">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 id="StateName" class="m-0 font-weight-bold text-primary">United States</h6>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 id="CountyName" class="m-0 font-weight-bold text-primary">County: All</h6>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 id="PopulationValue" class="m-0 font-weight-bold text-primary">Population: 314,043,884</h6>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Opioid County Map</h6>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <div class="template-demo">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Year </button>
+                                            <div id="selectorsYears" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <h6 class="dropdown-header">Settings</h6>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Feature </button>
+                                            <div id="selectors" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <h6 class="dropdown-header">Settings</h6>
+                                            </div>
+                                        </div>
+                                        <!--<div id="dashboard-vmap" class="vector-map"></div>-->
+                                        <div id="root">
+
+                                        </div>
+                                        <div class="row align-items-end">
+
+
+                                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                                <h6 id="FeatureName" class="m-0 font-weight-bold text-primary">Feature: Grams Oxycodone Per Person </h6>
+                                            </div>
+                                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                                <h6 id="YearValue" class="m-0 font-weight-bold text-primary">Year: All</h6>
+                                            </div>
+                                        </div>
+                                        <div class="template-demo">
+
+                                            <a href="CSE6242_Project_Final_Report_v3.pdf" type="button"
+                                               class="btn btn-primary btn-fw">
+                                                Project Report
+                                            </a>
+                                            <a href="Poster.pdf" type="button"
+                                               class="btn btn-primary btn-fw">
+                                                Poster
+                                            </a>
+                                            <a href="Static.pdf" type="button"
+                                               class="btn btn-primary btn-fw">
+                                                Static Data
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                    <h4 class="m-0 font-weight-bold text-primary"> </h4>
+                                    <h4 class="m-0 font-weight-bold text-primary"> </h4>
+                                </div>
+                                <h4 class="m-0 font-weight-bold text-primary"> </h4>
+                            </div>
+
+                        </div>
+                        <div class="col-md-5 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="mb-4" id="net-profit-legend">
+                                        <b>Historical charts of:</b>
+                                        <canvas id="correlated1"></canvas>
+                                    </div>
+                                    <!--<canvas class="mt-n4" height="90" id="total-revenue"></canvas>-->
+                                    <div class="mb-4" id="net-profit-legend"> <canvas id="correlated2"></canvas></div>
+                                    <div class="mb-4" id="net-profit-legend"><canvas id="correlated3"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h4 class="m-0 font-weight-bold text-primary">Digging Deeper</h4>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">
+                                    Predictive model projections and important factors
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 grid-margin stretch-card">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">“Hydrocodone and Oxycodone -- Current and Projected Usage</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="mb-8" id="net-profit-legend"><canvas id="projected21"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Corelating Facts</h6>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--<div class="row">
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="mb-4" id="net-profit-legend"><b>Correlate #1:</b> <canvas id="correlated21"></canvas></div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="mb-4" id="net-profit-legend"><b>Correlate #2:</b> <canvas id="correlated22"></canvas></div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="mb-4" id="net-profit-legend"><b>Correlate #3:</b> <canvas id="correlated23"></canvas></div>
+                </div>
+            </div>
+        </div>-->
+
+
+                    <div class="row">
+                        <div class="col-md-8 grid-margin stretch-card">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Opioid Deaths -- Current and Projected Usage</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="mb-8" id="net-profit-legend"><b>Correlate #1:</b> <canvas id="projected22"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Corelating Facts</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="mb-4" id="net-profit-legend"><b>Correlate #1:</b> <canvas id="correlated31"></canvas></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="mb-4" id="net-profit-legend"><b>Correlate #2:</b> <canvas id="correlated32"></canvas></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="mb-4" id="net-profit-legend"><b>Correlate #3:</b> <canvas id="correlated33"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 grid-margin stretch-card">
+                            <div class="template-demo">
+
+                                <a id="UnemploymentGraphs" href="javascript:setgraphs('Unemployment')" type="button"
+                                        class="btn btn-primary btn-fw">
+                                    Unemployment
+                                </a>
+                                <a id="UnemploymentGraphs" href="javascript:setgraphs('Income')" type="button"
+                                        class="btn btn-primary btn-fw">
+                                    Income
+                                </a>
+                                <a id="UnemploymentGraphs" href="javascript:setgraphs('Housing')" type="button"
+                                        class="btn btn-primary btn-fw">
+                                    Housing
+                                </a>
+
+                                <a id="UnemploymentGraphs" href="javascript:setgraphs('Opioid_Deaths')" type="button"
+                                        class="btn btn-primary btn-fw">
+                                    Deaths
+                                </a>
+
+                                <a id="UnemploymentGraphs" href="javascript:setgraphs('Demographics')" type="button"
+                                        class="btn btn-primary btn-fw">
+                                    Demographics
+                                </a>
+
+                                <a id="UnemploymentGraphs" href="javascript:setgraphs('Education')" type="button"
+                                        class="btn btn-primary btn-fw">
+                                    Education
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body pb-0">
+                                            <div class="d-flex justify-content-between">
+                                                <h4 id="detail-title1" class="card-title mb-0"></h4>
+                                                <p id="detail-delta1" class="font-weight-semibold mb-0"></p>
+                                            </div>
+                                            <h3 id="detail-ttl1" class="font-weight-medium"></h3>
+                                        </div>
+                                        <canvas class="mt-n3"  id="detail-chart1"></canvas>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body pb-0">
+                                            <div class="d-flex justify-content-between">
+                                                <h4 id="detail-title2" class="card-title mb-0"></h4>
+                                                <p id="detail-delta2" class="font-weight-semibold mb-0"></p>
+                                            </div>
+                                            <h3 id="detail-ttl2" class="font-weight-medium"></h3>
+                                        </div>
+                                        <canvas class="mt-n3"  id="detail-chart2"></canvas>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body pb-0">
+                                            <div class="d-flex justify-content-between">
+                                                <h4 id="detail-title3" class="card-title mb-0"></h4>
+                                                <p id="detail-delta3" class="font-weight-semibold mb-0"></p>
+                                            </div>
+                                            <h3 id="detail-ttl3" class="font-weight-medium"></h3>
+                                        </div>
+                                        <canvas class="mt-n3"  id="detail-chart3"></canvas>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body pb-0">
+                                            <div class="d-flex justify-content-between">
+                                                <h4 id="detail-title4" class="card-title mb-0"></h4>
+                                                <p id="detail-delta4" class="font-weight-semibold mb-0"></p>
+                                            </div>
+                                            <h3 id="detail-ttl4" class="font-weight-medium"></h3>
+                                        </div>
+                                        <canvas class="mt-n3"  id="detail-chart4"></canvas>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- content-wrapper ends -->
+                    <!-- partial:partials/_footer.html -->
+                    <footer class="footer">
+                        <div class="container-fluid clearfix">
+                            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">CSE6242 Project</span>
+                            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Team #114</span>
+                        </div>
+                    </footer>
+                    <!-- partial -->
+                </div>
+                <!-- main-panel ends -->
+            </div>
+                    <!-- page-body-wrapper ends -->
+                </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="assets/vendors/js/vendor.bundle.addons.js"></script>
+    <script type="text/javascript" src="assets/js/shared/d3.v5.min.js"></script>
+    <script type="text/javascript" src="assets/js/shared/topojson.v2.min.js"></script>
+    <script type="text/javascript" src="assets/js/shared/d3-geo-projection.v2.min.js"></script>
+    <script type="text/javascript" src="assets/js/shared/d3-legend.min.js"></script>
+    <script type="text/javascript" src="assets/js/shared/d3-tip.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://unpkg.com/d3-simple-slider"></script>
+    <script src="assets/js/shared/off-canvas.js"></script>
+    <script src="assets/js/shared/misc.js"></script>
+    <script src="assets/js/D3/genci.js"></script>
+    <script src="assets/js/D3/County.js"></script>
+
+    <script src="assets/js/demo_1/dashboard.js"></script>
+
+    <!-- End custom js for this page-->
+    <script type="text/javascript">
+        var drugs = {};
+        var drugTotals = {};
+        var drugTotalsFIPS = {};
+        var drugTotalsYear = {};
+        var coeff1 = {};
+        var coeff2 = {};
+        var counties = [];
+        var states = {};
+        var chartHandles = {};
+        var chartRefs = {};
+        var predictions = {};
+        var mort = {};
+
+        var countiesPromise = d3.json("data\\counties-albers-10m.json")
+            .then(function (data) {
+                counties = data;
+            });
+        const rollupData = d3.csv("data\\master_rollupv2.csv")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    padded_key = data[i].FIPS_CODE.padStart(5, 0);
+                    if (!(padded_key in drugs)) {
+                        drugs[padded_key] = {}
+                    }
+                    year = data[i].year;
+                    Object.keys(data[i]).forEach(function (key) {
+                        if (!(key in drugs[padded_key])) {
+                            drugs[padded_key][key] = {};
+                        };
+                        drugs[padded_key][key][year] = data[i][key]
+                    });
+                }
+            });
+        const rollupTotalsData = d3.csv("data\\totals.csv")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    padded_key = data[i].FIPS_CODE.padStart(5, 0);
+                    if (!(padded_key in drugTotals)) {
+                        drugTotals[padded_key] = {}
+                    }
+                    Object.keys(data[i]).forEach(function (key) {
+                        drugTotals[padded_key][key] = data[i][key]
+                    });
+                }
+            });
+        const rollupTotalsFIPSData = d3.csv("data\\totalsfips.csv")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    padded_key = data[i].FIPS_CODE.padStart(5, 0);
+                    if (!(padded_key in drugTotalsFIPS)) {
+                        drugTotalsFIPS[padded_key] = {}
+                    }
+                    Object.keys(data[i]).forEach(function (key) {
+                        drugTotalsFIPS[padded_key][key] = data[i][key]
+                    });
+                }
+            });
+        const rollupTotalsYearsData = d3.csv("data\\totalsyear.csv")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    padded_key = data[i].year;
+                    if (!(padded_key in drugTotalsYear)) {
+                        drugTotalsYear[padded_key] = {}
+                    }
+                    Object.keys(data[i]).forEach(function (key) {
+                        drugTotalsYear[padded_key][key] = data[i][key]
+                    });
+                }
+            });
+        const Coeeficients1Data = d3.csv("data\\Coeeficients1.csv")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    padded_key = data[i].fips.padStart(5, 0);
+                    if (!(padded_key in coeff1)) {
+                        coeff1[padded_key] = {}
+                    }
+                    Object.keys(data[i]).forEach(function (key) {
+                        coeff1[padded_key][key] = data[i][key]
+                    });
+                }
+            });
+        const Coeeficients2Data = d3.csv("data\\coefficients_all_V3.csv")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    padded_key = data[i].fips.padStart(5, 0);
+                    if (!(padded_key in coeff2)) {
+                        coeff2[padded_key] = {}
+                    }
+                    Object.keys(data[i]).forEach(function (key) {
+                        coeff2[padded_key][key] = data[i][key]
+                    });
+                }
+            });
+        const FIPSstate = d3.csv("data\\FIPS_STATE.csv")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    padded_key = data[i].FIPS.padStart(2, 0);
+                    states[padded_key] = {
+                        'State': data[i].State, 'State_abbr': data[i].State_abbr, 'FIPS': padded_key
+                    };
+
+                }
+            });
+        const HydroGramPredict = d3.csv("data\\futureyears_grams_hydro_v2.csv")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    padded_key = data[i].fips.padStart(5, 0);
+                    if (!(padded_key in predictions)) {
+                        predictions[padded_key] = {};
+                    }
+                    if (!("hydro" in predictions[padded_key])) {
+                        predictions[padded_key]["hydro"] = {};
+                        predictions[padded_key]["hydro100K"] = {};
+                    }
+                    predictions[padded_key]["hydro"][data[i].year] = data[i].pred_grams_hydro;
+                    predictions[padded_key]["hydro100K"][data[i].year] = data[i].pred_grams_hydro_per100k
+
+                }
+            });
+        const OxyGramPredict = d3.csv("data\\futureyears_grams_oxy_v2.csv")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    padded_key = data[i].fips.padStart(5, 0);
+                    if (!(padded_key in predictions)) {
+                        predictions[padded_key] = {};
+                    }
+                    if (!("oxy" in predictions[padded_key])) {
+                        predictions[padded_key]["oxy"] = {};
+                        predictions[padded_key]["oxy100K"] = {};
+                    }
+                    predictions[padded_key]["oxy"][data[i].year] = data[i].pred_grams_oxy;
+                    predictions[padded_key]["oxy100K"][data[i].year] = data[i].pred_grams_oxy_per100k
+
+                }
+            });
+        const MortPredict = d3.csv("data\\futureyears_mortality_without_drugs_v2.csv")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    padded_key = data[i].fips.padStart(5, 0);
+                    if (!(padded_key in predictions)) {
+                        predictions[padded_key] = {};
+                    }
+                    if (!("pred_mortality_count" in predictions[padded_key])) {
+                        predictions[padded_key]["pred_mortality_count"] = {};
+                    }
+                    predictions[padded_key]["pred_mortality_count"][data[i].year] = data[i].pred_mortality_count;
+
+                }
+            });
+
+        const MortalityPredict = d3.csv("data\\Mortality_correlation_v2.csv")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    padded_key = data[i].fips.padStart(5, 0);
+                    if (!(padded_key in mort)) {
+                        mort[padded_key] = {}
+                    }
+                    Object.keys(data[i]).forEach(function (key) {
+                        mort[padded_key][key] = data[i][key]
+                    });
+                }
+            });
+
+        (function ($) {
+            'use strict';
+            $(function () {
+
+                Promise.all([counties, rollupData, rollupTotalsData, rollupTotalsFIPSData, MortalityPredict, MortPredict,
+                    rollupTotalsYearsData, Coeeficients1Data, Coeeficients2Data, HydroGramPredict,OxyGramPredict]).then(values => {
+                        addCorrelationCharts("10001", coeff2, drugs);
+                        addCorrelationChartsPart3("01003", mort, drugs);
+                        setgraphs("Unemployment");
+                        add_predict("10001", predictions, drugs);
+                        add_predict2("10001", predictions, drugs);
+                        setupResizeMap();
+                    });
+
+            });
+
+        })(jQuery);
+    </script>
+</body>
+</html>
